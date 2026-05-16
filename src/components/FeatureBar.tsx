@@ -1,51 +1,54 @@
 "use client";
 
-import React from "react";
 import { Droplets, Leaf, ShieldCheck, Award } from "lucide-react";
 import { motion } from "framer-motion";
 
 const features = [
   {
-    icon: <Droplets size={32} strokeWidth={1} />,
-    title: "Better Hydration",
+    icon: <Droplets size={28} strokeWidth={1} />,
+    title: "Natural Hydration",
   },
   {
-    icon: <Leaf size={32} strokeWidth={1} />,
-    title: "Natural Wellness",
+    icon: <Leaf size={28} strokeWidth={1} />,
+    title: "Rooted in Tradition",
   },
   {
-    icon: <ShieldCheck size={32} strokeWidth={1} />,
-    title: "Easy to Maintain",
+    icon: <ShieldCheck size={28} strokeWidth={1} />,
+    title: (
+      <>
+        Easy to <br /> Maintain
+      </>
+    ),
   },
   {
-    icon: <Award size={32} strokeWidth={1} />,
-    title: "Timeless Quality",
+    icon: <Award size={28} strokeWidth={1} />,
+    title: (
+      <>
+        Lasts a <br /> Lifetime
+      </>
+    ),
   },
 ];
 
 const FeatureBar = () => {
   return (
-    <section className="bg-bg-soft flex items-center min-h-[160px] lg:min-h-[220px] py-12">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-wrap justify-center lg:justify-between items-center gap-8 lg:gap-[32px]">
-          {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="flex flex-col items-center text-center flex-1 min-w-[140px]"
-            >
-              <div className="text-brand-copper mb-4">
-                {feature.icon}
-              </div>
-              <span className="small-label text-foreground">
-                {feature.title}
-              </span>
-            </motion.div>
-          ))}
-        </div>
+    <section className="bg-bg-soft flex items-center h-[10dvh]">
+      <div className="flex  justify-center lg:justify-between items-center w-full lg:gap-[32px]">
+        {features.map((feature) => (
+          <motion.div
+            key={feature.title as string}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center leading-tight text-center flex-1 border-r border-r-gray-200"
+          >
+            <div className="text-brand-copper mb-0.5">{feature.icon}</div>
+            <span className="text-foreground font-semibold uppercase text-xs">
+              {feature.title}
+            </span>
+          </motion.div>
+        ))}
       </div>
     </section>
   );

@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import FeatureBar from "@/components/FeatureBar";
 import ComparisonSection from "@/components/ComparisonSection";
 import ProductDetails from "@/components/ProductDetails";
+import VoteSection from "@/components/VoteSection";
 import PrelaunchSignup from "@/components/PrelaunchSignup";
 import Footer from "@/components/Footer";
 
@@ -14,8 +15,8 @@ export default function Home() {
       <Navbar />
       <Hero />
       <FeatureBar />
-      <ComparisonSection />
       <ProductDetails />
+      <VoteSection />
       <PrelaunchSignup />
       <Footer />
     </main>

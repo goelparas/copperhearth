@@ -18,7 +18,7 @@ const ebGaramond = EB_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Copper Heritage | Premium Handcrafted Copper Wellness",
+  title: "Copper Heritage | Premium  Copper Wellness",
   description: "Experience the elegance of handcrafted copper wellness products. Authentic, sustainable, and designed for modern living.",
 };
 
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${manrope.variable} ${ebGaramond.variable}`}>
-      <body className="antialiased">
+      <body className="antialiased bg-brand-copper-soft">
         {children}
       </body>
     </html>

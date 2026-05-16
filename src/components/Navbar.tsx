@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ShoppingBag } from "lucide-react";
-import logo from '../../public/logo.png'
+import logo from '../../public/logo-2.png'
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -18,21 +18,19 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-10 w-full z-50 transition-all duration-300 h-[72px] md:h-[88px] flex items-center ${isScrolled ? "bg-background/90 backdrop-blur-md shadow-sm" : "bg-transparent"
+      className={`fixed top-10 w-full z-50 transition-all duration-300 flex items-center ${isScrolled ? "bg-background/90 backdrop-blur-md shadow-sm" : "bg-transparent"
         }`}
     >
-      <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
+      <div className="flex justify-between items-center w-full h-16 overflow-hidden px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center">
-
+        <div className=" md:hidden"/>
+        <Link href="/" className="flex items-center cursor-pointer  h-full">
           <Image
             src={logo}
             alt="Copper Heritage"
-            objectFit="contain"
-            className="relative w-32 h-10 md:w-44 md:h-12"
+            width={80}
             priority
           />
-
         </Link>
 
         {/* Cart Icon Only */}
