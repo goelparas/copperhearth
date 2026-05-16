@@ -2,8 +2,8 @@ import Banner from "@/components/Banner";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import FeatureBar from "@/components/FeatureBar";
-import ComparisonSection from "@/components/ComparisonSection";
 import ProductDetails from "@/components/ProductDetails";
+import FeatureSection from "@/components/FeatureSection";
 import VoteSection from "@/components/VoteSection";
 import PrelaunchSignup from "@/components/PrelaunchSignup";
 import Footer from "@/components/Footer";
@@ -15,8 +15,9 @@ export default function Home() {
       <Navbar />
       <Hero />
       <FeatureBar />
-      <ProductDetails />
+      <FeatureSection />
       <VoteSection />
+      <ProductDetails />
       <PrelaunchSignup />
       <Footer />
     </main>

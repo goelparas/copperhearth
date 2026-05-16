@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import hero from "../../public/hero.png";
 const Hero = () => {
   return (
-    <section className="relative gap-8 h-[90dvh] pt-32   bg-linear-to-t from-brand-copper/20 to-brand-copper/10 flex flex-col items-center justify-start bg-background overflow-hidden">
+    <section className="relative gap-8 h-[90dvh] pt-28   bg-linear-to-t from-brand-copper/20 to-brand-copper/10 flex flex-col items-center justify-start bg-background overflow-hidden">
       <div className="container mx-auto grid grid-cols-1  lg:grid-cols-2  lg:gap-24 items-center max-w-[1280px]">
         {/* Text Content */}
         <div className="flex flex-col h-[50dvh] items-left lg:items-start px-6 text-center lg:text-left z-10  max-w-[520px]">
@@ -51,7 +51,7 @@ const Hero = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="relative w-full h-full"
           >
-            <motion.text
+            <motion.p
               className="w-full h-2 text-sm font-semibold pl-6  absolute z-10 top-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{
@@ -62,12 +62,13 @@ const Hero = () => {
               style={{ fontWeight: "500" }}
             >
               Get Extra 10% on Launch
-            </motion.text>
+            </motion.p>
             <Image
               src={hero}
               alt="Copper Heritage Products"
               fill
-              className="object-cover z-20 "
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover z-20"
               priority
             />
           </motion.div>

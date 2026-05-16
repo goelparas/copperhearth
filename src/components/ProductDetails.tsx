@@ -47,7 +47,7 @@ const ProductDetails = () => {
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-6 md:gap-8">
           {details.map((detail, index) => (
             <motion.div
-              key={detail.title + { index }}
+              key={detail.title}
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.05 }}
@@ -61,6 +61,7 @@ const ProductDetails = () => {
                   src={detail.image}
                   alt={detail.title}
                   fill
+                  sizes="(max-width: 768px) 50vw, 16vw"
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
