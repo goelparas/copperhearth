@@ -1,26 +1,134 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* BACKGROUNDS */
+  --background: #F3ECE4;
+  --bg-secondary: #EFE5DA;
+  --bg-soft: #F7F2EC;
+  
+  /* TEXT */
+  --foreground: #1F2B24;
+  --text-secondary: #5D5A56;
+  --text-muted: #8A847E;
+  
+  /* BRAND COLORS */
+  --brand-forest: #0F2B25;
+  --brand-forest-hover: #0A1F1A;
+  --brand-copper: #B87333;
+  --brand-copper-soft: #C78A52;
+  --brand-copper-light: #D8A46D;
+  
+  /* UI ELEMENTS */
+  --divider: #DED5CA;
+  --card-border: #E8DED1;
+  --success: #7A8E74;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-soft: var(--bg-soft);
+  
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  
+  --color-brand-forest: var(--brand-forest);
+  --color-brand-forest-hover: var(--brand-forest-hover);
+  --color-brand-copper: var(--brand-copper);
+  --color-brand-copper-soft: var(--brand-copper-soft);
+  --color-brand-copper-light: var(--brand-copper-light);
+  
+  --color-divider: var(--divider);
+  --color-card-border: var(--card-border);
+  --color-success: var(--success);
+
+  --font-serif: "EB Garamond", serif;
+  --font-sans: "Manrope", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* DESKTOP TYPOGRAPHY */
+  h1 {
+    @apply font-serif font-medium;
+    font-size: 84px;
+    line-height: 0.95;
+    letter-spacing: -2px;
+  }
+
+  h2 {
+    @apply font-serif font-medium;
+    font-size: 52px;
+    line-height: 1.05;
+  }
+
+  /* MOBILE TYPOGRAPHY OVERRIDES */
+  @media (max-width: 768px) {
+    body {
+      font-size: 15px;
+    }
+    
+    h1 {
+      font-size: 52px;
+      letter-spacing: -1px;
+    }
+    
+    h2 {
+      font-size: 34px;
+      line-height: 1.1;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .subheading {
+    @apply font-sans font-normal text-text-secondary;
+    font-size: 20px;
+    line-height: 1.6;
+  }
+  
+  @media (max-width: 768px) {
+    .subheading {
+      font-size: 17px;
+    }
+  }
+
+  .small-label {
+    @apply font-sans font-semibold uppercase;
+    font-size: 12px;
+    letter-spacing: 3px;
+  }
+  
+  @media (max-width: 768px) {
+    .small-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+  }
+
+  .btn-primary {
+    @apply bg-brand-forest text-white rounded-full font-sans font-semibold uppercase transition-all duration-300 flex items-center justify-center;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    height: 54px;
+    padding: 0 28px;
+  }
+  
+  .btn-primary:hover {
+    @apply bg-brand-forest-hover;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    .btn-primary {
+      height: 50px;
+    }
+  }
 }
