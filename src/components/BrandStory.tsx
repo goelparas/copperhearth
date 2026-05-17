@@ -42,7 +42,7 @@ const BrandStory = () => {
             </h2>
             <div className="space-y-6 text-brand-dark/70 leading-relaxed text-lg">
               <p>
-                Copper Heritage was born out of a desire to rediscover the ancient wisdom of copper, 
+                Copper Hearth was born out of a desire to rediscover the ancient wisdom of copper, 
                 refined for the modern world. Our journey began in the workshops of master artisans, 
                 where centuries-old techniques are still whispered from teacher to apprentice.
               </p>

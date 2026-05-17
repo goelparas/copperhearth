@@ -5,14 +5,25 @@ import { motion } from "framer-motion";
 
 const features = [
   {
+    id: "natural-hydration",
     icon: <Droplets size={28} strokeWidth={1} />,
-    title: "Natural Hydration",
+    title: (
+      <>
+        Natural <br /> Hydration
+      </>
+    ),
   },
   {
+    id: "rooted-in-tradition",
     icon: <Leaf size={28} strokeWidth={1} />,
-    title: "Rooted in Tradition",
+    title: (
+      <>
+        Rooted in <br /> Tradition
+      </>
+    ),
   },
   {
+    id: "easy-to-maintain",
     icon: <ShieldCheck size={28} strokeWidth={1} />,
     title: (
       <>
@@ -21,6 +32,7 @@ const features = [
     ),
   },
   {
+    id: "lasts-a-lifetime",
     icon: <Award size={28} strokeWidth={1} />,
     title: (
       <>
@@ -36,7 +48,7 @@ const FeatureBar = () => {
       <div className="flex  justify-center lg:justify-between items-center w-full lg:gap-[32px]">
         {features.map((feature) => (
           <motion.div
-            key={feature.title as string}
+            key={feature.id}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -44,7 +56,7 @@ const FeatureBar = () => {
             className="flex flex-col items-center leading-tight text-center flex-1 border-r border-r-gray-200"
           >
             <div className="text-brand-copper mb-0.5">{feature.icon}</div>
-            <span className="text-foreground font-semibold uppercase text-xs">
+            <span className="text-foreground font-sans font-semibold uppercase text-[10px]">
               {feature.title}
             </span>
           </motion.div>

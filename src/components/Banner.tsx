@@ -4,8 +4,18 @@ import React from "react";
 import { Gift } from "lucide-react";
 
 const Banner = () => {
+  const handleScrollToSignup = () => {
+    const el = document.getElementById("signup");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="fixed top-0 w-full z-60 bg-brand-forest py-[10px] px-4 overflow-hidden h-[42px] flex items-center">
+    <div
+      onClick={handleScrollToSignup}
+      className="fixed top-0 w-full z-60 bg-brand-forest py-[10px] px-4 overflow-hidden h-[42px] flex items-center cursor-pointer select-none"
+    >
       <div className="container mx-auto flex justify-center items-center space-x-3">
         <Gift
           className="text-brand-copper animate-pulse"

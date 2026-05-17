@@ -33,12 +33,12 @@ const ComparisonSection = () => {
             THE DIFFERENCE IS IN THE WATER YOU DRINK
           </p>
           <h2 className="text-foreground">
-            Copper Heritage vs Without Copper
+            Copper Hearth vs Without Copper
           </h2>
         </div>
 
         <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-          {/* Copper Heritage Side */}
+          {/* Copper Hearth Side */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -46,7 +46,7 @@ const ComparisonSection = () => {
             className="bg-[#F8F2EB] p-8 md:p-12 rounded-[24px] border border-[#E5D9CB] relative z-10 shadow-sm"
           >
             <h3 className="small-label text-brand-copper mb-8">
-              WITH COPPER HERITAGE
+              WITH COPPER HEARTH
             </h3>
             <ul className="space-y-4 mb-12">
               {comparisonData.copper.map((item) => (
@@ -61,7 +61,7 @@ const ComparisonSection = () => {
             <div className="relative aspect-video w-full rounded-2xl overflow-hidden shadow-md">
               <Image
                 src="/comparison-copper.png"
-                alt="Copper Heritage Product"
+                alt="Copper Hearth Product"
                 fill
                 className="object-cover"
               />

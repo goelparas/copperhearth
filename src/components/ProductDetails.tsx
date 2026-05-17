@@ -5,28 +5,28 @@ import { motion } from "framer-motion";
 
 const details = [
   {
-    title: "PURE COPPER INSIDE",
-    desc: "Ayurvedic benefits in every sip.",
+    title: "PURE COPPER INTERIOR",
+    desc: "99.9% pure copper naturally enriches every sip.",
     color: "bg-[#D9A67C]/20",
-    image: "/pure-copper.jpeg",
+    image: "/mouth.jpeg",
   },
   {
     title: "LEAK-PROOF LID",
-    desc: "Secure. Spill-proof. Travel with confidence.",
+    desc: "Sealed tight. Your water stays in, always.",
     color: "bg-[#B87333]/20",
     image: "/leak-proof.jpeg",
   },
   {
-    title: "ERGONOMIC HANDLE",
-    desc: "Comfortable grip. Perfect balance.",
+    title: "DOUBLE-WALL INSULATION",
+    desc: "Keeps your drink cooler, longer — naturally.",
     color: "bg-[#8B4513]/20",
-    image: "/handle.jpeg",
+    image: "/thermal.jpeg",
   },
   {
-    title: "ANTI-SLIP BASE",
-    desc: "Stable. Silent. Scratch-safe.",
+    title: "ERGONOMIC HANDLE",
+    desc: "Balanced grip built for every kind of day.",
     color: "bg-[#A0522D]/20",
-    image: "/base.jpeg",
+    image: "/handle.jpeg",
   },
 ];
 
@@ -55,7 +55,7 @@ const ProductDetails = () => {
               className="flex flex-col items-center text-center group h-auto lg:h-[210px]"
             >
               <div
-                className={`w-full h-28 rounded-2xl ${detail.color} mb-4 flex items-center justify-center border border-card-border overflow-hidden transition-all duration-500 group-hover:shadow-md relative`}
+                className={`w-full h-32 rounded-2xl ${detail.color} mb-4 flex items-center justify-center border border-card-border overflow-hidden transition-all duration-500 group-hover:shadow-md relative`}
               >
                 <Image
                   src={detail.image}

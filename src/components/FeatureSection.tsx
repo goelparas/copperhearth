@@ -10,7 +10,7 @@ const FeatureSection = () => {
       <div className="absolute inset-0">
         <Image
           src="/feature.png"
-          alt="Copper Heritage Collection"
+          alt="Copper Hearth Collection"
           fill
           priority
           className="object-cover"

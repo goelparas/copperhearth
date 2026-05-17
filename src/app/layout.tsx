@@ -18,7 +18,7 @@ const ebGaramond = EB_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Copper Heritage | Premium  Copper Wellness",
+  title: "Copper Hearth | Premium  Copper Wellness",
   description: "Experience the elegance of handcrafted copper wellness products. Authentic, sustainable, and designed for modern living.",
 };
 

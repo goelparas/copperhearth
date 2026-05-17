@@ -54,7 +54,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
             {!isSubmitted ? (
               <div className="text-center">
                 <p className="text-brand-accent uppercase tracking-[0.3em] text-xs font-semibold mb-3">Early Access</p>
-                <h2 className="text-3xl font-serif text-brand-dark mb-4">Join the Heritage Circle</h2>
+                <h2 className="text-3xl font-serif text-brand-dark mb-4">Join the Hearth Circle</h2>
                 <p className="text-brand-dark/60 mb-8">
                   Get exclusive access to limited editions and wellness insights.
                 </p>
