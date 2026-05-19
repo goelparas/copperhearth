@@ -16,16 +16,16 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative gap-8 h-[90lvh] pt-28 bg-linear-to-t from-brand-copper/20 to-brand-copper/10 flex flex-col items-center justify-start bg-background overflow-hidden">
+    <section className="relative h-[90lvh] overflow-hidden bg-background bg-linear-to-t from-brand-copper/20 to-brand-copper/10 pt-28 lg:h-[calc(100svh-2.625rem)] lg:min-h-[42rem] lg:pt-36">
       <CertificationRibbon />
-      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 lg:gap-24 items-center max-w-[80rem]">
+      <div className="container relative z-10 mx-auto grid h-full max-w-[90rem] grid-cols-1 items-start px-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:px-10 xl:px-16">
         {/* Text Content */}
-        <div className="flex flex-col  h-[50lvh] items-left lg:items-start px-4 text-center lg:text-left z-10 max-w-[32.5rem]">
+        <div className="z-10 flex h-[50lvh] max-w-[32.5rem] flex-col items-left text-center lg:h-auto lg:max-w-[36rem] lg:items-start lg:pb-20 lg:pt-4 lg:text-left xl:max-w-[39rem]">
           <motion.h1
             initial={{ opacity: 0, y: "1.20rem" }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-4 text-left"
+            className="mb-4 text-left lg:mb-6 lg:text-[4.75rem] lg:leading-[0.98] xl:text-[5.35rem]"
           >
             The modern <br />
             <span className="text-brand-copper italic font-normal">Indian</span>
@@ -37,7 +37,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: "0.9375rem" }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="my-3 text-sm font-semibold font-sans text-left"
+            className="my-3 text-left font-sans text-sm font-semibold lg:mb-8 lg:mt-0 lg:text-lg lg:font-medium lg:leading-relaxed xl:text-xl"
           >
             The water you drink matters more than
             <br />
@@ -49,20 +49,20 @@ const Hero = () => {
             initial={{ opacity: 0, y: "1.25rem" }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full justify-center sm:justify-start lg:justify-start"
+            className="flex w-full flex-col justify-center space-y-4 sm:flex-row sm:justify-start sm:space-x-4 sm:space-y-0 lg:justify-start"
           >
             <motion.button
               whileHover={{ scale: 1.04, y: "-0.125rem" }}
               whileTap={{ scale: 0.96 }}
               onClick={handleScrollToSignup}
-              className="bg-brand-forest text-brand-copper-soft hover:bg-brand-forest-hover font-serif text-xs sm:text-base font-bold uppercase tracking-widest rounded-full flex items-center justify-center py-4 px-4 sm:px-8 transition-all duration-300 shadow-md shadow-brand-forest/15 hover:shadow-xl hover:shadow-brand-forest/25 text-nowrap w-min sm:w-auto cursor-pointer"
+              className="flex w-min cursor-pointer items-center justify-center text-nowrap rounded-full bg-brand-forest px-4 py-4 font-serif text-xs font-bold uppercase tracking-widest text-brand-copper-soft shadow-md shadow-brand-forest/15 transition-all duration-300 hover:bg-brand-forest-hover hover:shadow-xl hover:shadow-brand-forest/25 sm:w-auto sm:px-8 sm:text-base lg:px-10 lg:py-5 lg:text-sm"
             >
               <span>Join the First Collection</span>
               <ArrowRight size="1rem" className="ml-2.5 text-brand-copper" />
             </motion.button>
           </motion.div>
           {/* Caption */}
-          <div className="flex items-center space-x-2 mt-4 text-brand-copper group-hover:text-brand-copper-dark transition-colors duration-300">
+          <div className="mt-4 flex items-center space-x-2 text-brand-copper transition-colors duration-300 group-hover:text-brand-copper-dark lg:mt-7">
             <Flame size="0.9375rem" className="animate-pulse fill-current" />
             <JoinedCounter />
           </div>
@@ -70,18 +70,19 @@ const Hero = () => {
         </div>
 
         {/* Product Image Area */}
-        <div className="absolute h-[40lvh] bottom-0 md:relative md:bottom-auto w-full flex justify-end">
+        <div className="absolute bottom-0 h-[40lvh] w-full md:relative md:bottom-auto lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-[58vw] xl:w-[60vw]">
           <motion.div
             initial={{ opacity: 0, x: "1.25rem" }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative w-full h-full"
+            className="relative h-full w-full"
           >
             <Image
               src={hero}
               alt="Copper Hearth Products"
               fill
-              className="object-cover z-20"
+              sizes="(max-width: 1024px) 100vw, 60vw"
+              className="z-20 object-cover object-center lg:object-[58%_50%]"
               priority
             />
           </motion.div>
