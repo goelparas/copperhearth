@@ -75,12 +75,12 @@ const PrelaunchSignup = () => {
 
   return (
     <section id="signup" className="py-6">
-      <div className="container mx-auto px-6 max-w-[1200px]">
+      <div className="container mx-auto px-6 max-w-[75rem]">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-brand-forest rounded-3xl md:rounded-[64px] p-8 md:p-16 lg:p-20 flex flex-col lg:flex-row items-center justify-between gap-10 md:gap-12 border border-white/5"
+          className="bg-brand-forest rounded-3xl md:rounded-[4rem] p-8 md:p-16 lg:p-20 flex flex-col lg:flex-row items-center justify-between gap-10 md:gap-12 border border-white/5"
         >
           {/* Left Content: Icon & Messaging */}
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 text-center md:text-left">
@@ -88,7 +88,7 @@ const PrelaunchSignup = () => {
               <Gift size={32} />
             </div>
             <div className="max-w-md">
-              <p className="text-white/30 text-[10px] md:text-xs font-sans uppercase tracking-[0.3em] mb-3 font-bold">
+              <p className="text-white/30 text-[0.625rem] md:text-xs font-sans uppercase tracking-[0.3em] mb-3 font-bold">
                 Be the first to own it.
               </p>
               <h2 className="text-2xl md:text-5xl font-serif text-white leading-[1.2] md:leading-tight">
@@ -107,7 +107,7 @@ const PrelaunchSignup = () => {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="w-full p-8 bg-white/5 border border-white/10 rounded-[32px] text-center flex flex-col items-center gap-5 shadow-2xl backdrop-blur-sm"
+                className="w-full p-8 bg-white/5 border border-white/10 rounded-[2rem] text-center flex flex-col items-center gap-5 shadow-2xl backdrop-blur-sm"
               >
                 <div className="w-16 h-16 rounded-full bg-brand-copper/20 border border-brand-copper/40 flex items-center justify-center text-brand-copper shadow-[0_0_30px_rgba(184,115,51,0.2)]">
                   <Check size={28} />
@@ -128,7 +128,7 @@ const PrelaunchSignup = () => {
                 className="w-full flex flex-col gap-4"
               >
                 {/* Phone Input */}
-                <div className="relative flex items-center rounded-[18px] md:rounded-[22px] border border-white/10 bg-white/5 focus-within:border-brand-copper/40 focus-within:bg-white/[0.08] transition-all">
+                <div className="relative flex items-center rounded-[1.125rem] md:rounded-[1.375rem] border border-white/10 bg-white/5 focus-within:border-brand-copper/40 focus-within:bg-white/[0.08] transition-all">
                   <Phone className="absolute left-5 text-white/30" size={18} />
                   <input
                     type="tel"
@@ -136,20 +136,20 @@ const PrelaunchSignup = () => {
                     pattern="[0-9]*"
                     placeholder="Phone Number (10 digits)"
                     required
-                    className="w-full bg-transparent pl-12 pr-5 py-4 md:py-5 text-white text-[14px] placeholder:text-white/20 focus:outline-none transition-all font-sans"
+                    className="w-full bg-transparent pl-12 pr-5 py-4 md:py-5 text-white text-[0.875rem] placeholder:text-white/20 focus:outline-none transition-all font-sans"
                     value={phone}
                     onChange={handlePhoneChange}
                   />
                 </div>
 
                 {/* Email Input */}
-                <div className="relative flex items-center rounded-[18px] md:rounded-[22px] border border-white/10 bg-white/5 focus-within:border-brand-copper/40 focus-within:bg-white/[0.08] transition-all">
+                <div className="relative flex items-center rounded-[1.125rem] md:rounded-[1.375rem] border border-white/10 bg-white/5 focus-within:border-brand-copper/40 focus-within:bg-white/[0.08] transition-all">
                   <Mail className="absolute left-5 text-white/30" size={18} />
                   <input
                     type="email"
                     placeholder="Email Address"
                     required
-                    className="w-full bg-transparent pl-12 pr-5 py-4 md:py-5 text-white text-[14px] placeholder:text-white/20 focus:outline-none transition-all font-sans"
+                    className="w-full bg-transparent pl-12 pr-5 py-4 md:py-5 text-white text-[0.875rem] placeholder:text-white/20 focus:outline-none transition-all font-sans"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -165,7 +165,7 @@ const PrelaunchSignup = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-brand-copper hover:bg-brand-copper/90 disabled:opacity-50 text-white rounded-[18px] md:rounded-[22px] py-4 md:py-5 text-[10px] md:text-[13px] font-bold uppercase tracking-[0.15em] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-brand-copper/10"
+                  className="w-full bg-brand-copper hover:bg-brand-copper/90 disabled:opacity-50 text-white rounded-[1.125rem] md:rounded-[1.375rem] py-4 md:py-5 text-[0.625rem] md:text-[0.8125rem] font-bold uppercase tracking-[0.15em] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-brand-copper/10"
                 >
                   {isSubmitting ? (
                     <>

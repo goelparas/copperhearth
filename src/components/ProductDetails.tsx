@@ -33,7 +33,7 @@ const details = [
 const ProductDetails = () => {
   return (
     <section className="py-12 md:py-32 bg-bg-soft">
-      <div className="container mx-auto px-6 max-w-[1280px]">
+      <div className="container mx-auto px-6 max-w-[80rem]">
         <div className="text-center mb-16 md:mb-20">
           <p className="small-label text-text-muted mb-4">
             CRAFTED FOR EVERYDAY LIFE
@@ -52,7 +52,7 @@ const ProductDetails = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.05 }}
               viewport={{ once: true }}
-              className="flex flex-col items-center text-center group h-auto lg:h-[210px]"
+              className="flex flex-col items-center text-center group h-auto lg:h-[13.125rem]"
             >
               <div
                 className={`w-full h-32 rounded-2xl ${detail.color} mb-4 flex items-center justify-center border border-card-border overflow-hidden transition-all duration-500 group-hover:shadow-md relative`}
@@ -65,10 +65,10 @@ const ProductDetails = () => {
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
-              <h3 className="text-[11px] md:text-[12px] uppercase tracking-[0.2em] font-bold text-foreground mb-1">
+              <h3 className="text-[0.6875rem] md:text-[0.75rem] uppercase tracking-[0.2em] font-bold text-foreground mb-1">
                 {detail.title}
               </h3>
-              <p className="text-[13px] text-text-secondary leading-relaxed max-w-[140px]">
+              <p className="text-[0.8125rem] text-text-secondary leading-relaxed max-w-[8.75rem]">
                 {detail.desc}
               </p>
             </motion.div>

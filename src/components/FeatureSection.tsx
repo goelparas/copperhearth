@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 const FeatureSection = () => {
   return (
-    <section className="relative w-full h-[90dvh] min-h-[700px] overflow-hidden">
+    <section className="relative w-full h-[90lvh] min-h-[43.75rem] overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
@@ -29,7 +29,7 @@ const FeatureSection = () => {
           className="flex flex-col items-start"
         >
           {/* Logo */}
-          <div className="mb-12 md:mb-16">
+          <div className="mb-6 md:mb-16">
             <Image
               src="/logo.png"
               alt="GH Logo"
@@ -39,7 +39,7 @@ const FeatureSection = () => {
             />
           </div>
 
-          <p className="text-white/80 uppercase tracking-[0.3em] text-[12px] font-bold mb-6">
+          <p className="text-white/80 uppercase tracking-[0.3em] text-[0.75rem] font-bold mb-6">
             Explore the
           </p>
 

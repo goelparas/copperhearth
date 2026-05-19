@@ -44,8 +44,8 @@ const features = [
 
 const FeatureBar = () => {
   return (
-    <section className="bg-bg-soft flex items-center h-[10dvh]">
-      <div className="flex  justify-center lg:justify-between items-center w-full lg:gap-[32px]">
+    <section className="bg-bg-soft flex items-center h-[10lvh]">
+      <div className="flex  justify-center lg:justify-between items-center w-full lg:gap-[2rem]">
         {features.map((feature) => (
           <motion.div
             key={feature.id}
@@ -56,7 +56,7 @@ const FeatureBar = () => {
             className="flex flex-col items-center leading-tight text-center flex-1 border-r border-r-gray-200"
           >
             <div className="text-brand-copper mb-0.5">{feature.icon}</div>
-            <span className="text-foreground font-sans font-semibold uppercase text-[10px]">
+            <span className="text-foreground font-sans font-semibold uppercase text-[0.625rem]">
               {feature.title}
             </span>
           </motion.div>

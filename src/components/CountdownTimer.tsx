@@ -18,13 +18,9 @@ const CountdownTimer = () => {
     minutes: "30",
     seconds: "00",
   });
-  const [mounted, setMounted] = useState(false);
-  const [isSticky, setIsSticky] = useState(false);
-  const [wiggleTrigger, setWiggleTrigger] = useState(false);
+  const [showInHeader, setShowInHeader] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-
     // Mock target date: exactly 30 minutes from first mount
     const targetTime = Date.now() + 30 * 60 * 1000;
 
@@ -51,25 +47,23 @@ const CountdownTimer = () => {
     updateTimer();
     const timerInterval = setInterval(updateTimer, 1000);
 
-    // Scroll listener for sticky sticky container
     const handleScroll = () => {
-      if (window.scrollY > 200) {
-        setIsSticky(true);
-      } else {
-        setIsSticky(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
+      const hero = document.querySelector("section");
+      const heroBottom = hero
+        ? hero.getBoundingClientRect().bottom + window.scrollY
+        : window.innerHeight * 0.9;
 
-    // Wiggle attention-grabbing animation every 2 seconds
-    const wiggleInterval = setInterval(() => {
-      setWiggleTrigger((prev) => !prev);
-    }, 2000);
+      setShowInHeader(window.scrollY > heroBottom - 96);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
 
     return () => {
       clearInterval(timerInterval);
-      clearInterval(wiggleInterval);
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
     };
   }, []);
 
@@ -80,128 +74,58 @@ const CountdownTimer = () => {
     }
   };
 
-  if (!mounted) return null;
-
-  // Single card element helper - High Contrast Dark Forest Green with Gold/Copper numbers
-  const TimeCard = ({ value, label }: { value: string; label: string }) => (
-    <div className="flex flex-col items-center justify-center rounded-2xl w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-brand-forest border border-white/10 shadow-lg shadow-brand-forest/20 transition-all duration-300 group-hover:scale-105">
-      <span className="font-serif text-xl sm:text-2xl md:text-4xl text-brand-copper leading-none font-semibold">
-        {value}
-      </span>
-      <span className="text-[7px] sm:text-[8px] md:text-[9px] uppercase tracking-widest font-sans font-bold text-white/50 mt-1 sm:mt-1.5 select-none">
-        {label}
-      </span>
-    </div>
-  );
-
   return (
-    <>
-      {/* Inline Countdown layout - Replaces original "Get Extra 10% on Launch" */}
-      <div
-        onClick={handleScrollToSignup}
-        className="flex flex-col items-center md:items-start select-none cursor-pointer group"
-      >
-        <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
-          <TimeCard value={timeLeft.days} label="DAYS" />
-          <span className="text-xl md:text-3xl text-brand-forest/60 font-bold leading-none">
-            :
+    <AnimatePresence>
+      {showInHeader && (
+        <motion.button
+          type="button"
+          onClick={handleScrollToSignup}
+          initial={{ opacity: 0, x: 18, scale: 0.96 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          exit={{ opacity: 0, x: 12, scale: 0.96 }}
+          transition={{ duration: 0.35, ease: "easeIn" }}
+          className="flex items-center gap-1.5 rounded-full border border-brand-copper/30 bg-[#F5EFEB]/95 px-2 py-1.5 shadow-lg shadow-brand-forest/10 backdrop-blur-md transition-transform active:scale-95 sm:gap-2 sm:px-2.5"
+          aria-label="Extra 10 percent offer ending soon"
+        >
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-forest text-brand-copper sm:h-7 sm:w-7">
+            <Flame size={13} className="fill-current sm:size-3.5" />
           </span>
-          <TimeCard value={timeLeft.hours} label="HRS" />
-          <span className="text-xl md:text-3xl text-brand-forest/60 font-bold leading-none">
-            :
-          </span>
-          <TimeCard value={timeLeft.minutes} label="MINS" />
-          <span className="text-xl md:text-3xl text-brand-forest/60 font-bold leading-none">
-            :
-          </span>
-          <TimeCard value={timeLeft.seconds} label="SECS" />
-        </div>
-      </div>
 
-      {/* Floating Sticky Mobile / Tablet Widget with High-Energy Wiggle */}
-      <AnimatePresence>
-        {isSticky && (
-          <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 100 }}
-            transition={{ type: "spring", stiffness: 260, damping: 25 }}
-            className="fixed bottom-4 left-4 right-4 z-100 block lg:hidden"
-          >
-            <motion.div
-              onClick={handleScrollToSignup}
-              animate={
-                wiggleTrigger
-                  ? { rotate: [0, -3, 3, -3, 3, 0], scale: [1, 1.02, 1.02, 1] }
-                  : { rotate: [0, -3, 3, -3, 3, 0], scale: [1, 1.02, 1.02, 1] }
-              }
-              transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="bg-[#F5EFEB]/95 backdrop-blur-md rounded-3xl p-3 border-2 border-brand-copper/30 shadow-2xl flex items-center justify-between shadow-brand-forest/15 cursor-pointer active:scale-95 transition-transform"
-            >
-              {/* Sticky Left: Tiny flame tag & CTA */}
-              <div className="flex items-center space-x-2 pl-2">
-                <div className="w-8 h-8 rounded-full bg-brand-forest flex items-center justify-center text-brand-copper shadow-xs">
-                  <Flame size={16} className="fill-current animate-pulse" />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-sans font-black tracking-wider text-brand-forest uppercase">
-                    Launch Offer
-                  </span>
-                  <span className="text-[8px] font-sans font-bold text-brand-copper tracking-tight">
-                    Extra 10% Ending Soon
-                  </span>
-                </div>
-              </div>
+          <span className="flex min-w-0 max-w-[5.25rem] flex-col text-left leading-none sm:max-w-none">
+            <span className="truncate text-[0.42rem] font-black uppercase tracking-[0.1em] text-brand-forest sm:text-[0.5rem] sm:tracking-[0.14em]">
+              Exclusive Offer
+            </span>
+            <span className="mt-0.5 truncate text-[0.42rem] font-bold text-brand-copper sm:mt-1 sm:text-[0.5rem]">
+              Extra 10% Ending Soon
+            </span>
+          </span>
 
-              {/* Sticky Right: Compact Ticking Numbers in Dark Forest Green */}
-              <div className="flex items-center space-x-1 sm:space-x-2 pr-1">
-                <div className="flex flex-col items-center bg-brand-forest px-2 py-1.5 rounded-lg min-w-[32px] border border-white/5">
-                  <span className="font-serif text-[13px] text-brand-copper font-bold leading-none">
-                    {timeLeft.days}
+          <span className="flex items-center gap-1 leading-none">
+            {[
+              { label: "h", value: timeLeft.hours },
+              { label: "m", value: timeLeft.minutes },
+              { label: "s", value: timeLeft.seconds },
+            ].map((item, index) => (
+              <React.Fragment key={item.label}>
+                <span className="flex min-w-[1.35rem] flex-col items-center rounded-md bg-brand-forest px-1 py-1 sm:min-w-[1.55rem] sm:px-1.5">
+                  <span className="font-serif text-[0.68rem] font-bold text-brand-copper sm:text-[0.75rem]">
+                    {item.value}
                   </span>
-                  <span className="text-[5px] font-bold text-white/50 mt-0.5 tracking-wider">
-                    DAYS
+                  <span className="text-[0.25rem] font-bold uppercase tracking-wider text-white/50">
+                    {item.label}
                   </span>
-                </div>
-                <span className="text-brand-forest/40 font-bold text-[10px]">
-                  :
                 </span>
-                <div className="flex flex-col items-center bg-brand-forest px-2 py-1.5 rounded-lg min-w-[32px] border border-white/5">
-                  <span className="font-serif text-[13px] text-brand-copper font-bold leading-none">
-                    {timeLeft.hours}
+                {index !== 2 && (
+                  <span className="text-[0.5rem] font-black text-brand-forest/40">
+                    :
                   </span>
-                  <span className="text-[5px] font-bold text-white/50 mt-0.5 tracking-wider">
-                    HRS
-                  </span>
-                </div>
-                <span className="text-brand-forest/40 font-bold text-[10px]">
-                  :
-                </span>
-                <div className="flex flex-col items-center bg-brand-forest px-2 py-1.5 rounded-lg min-w-[32px] border border-white/5">
-                  <span className="font-serif text-[13px] text-brand-copper font-bold leading-none">
-                    {timeLeft.minutes}
-                  </span>
-                  <span className="text-[5px] font-bold text-white/50 mt-0.5 tracking-wider">
-                    MINS
-                  </span>
-                </div>
-                <span className="text-brand-forest/40 font-bold text-[10px]">
-                  :
-                </span>
-                <div className="flex flex-col items-center bg-brand-forest px-2 py-1.5 rounded-lg min-w-[32px] border border-white/5">
-                  <span className="font-serif text-[13px] text-brand-copper font-bold leading-none">
-                    {timeLeft.seconds}
-                  </span>
-                  <span className="text-[5px] font-bold text-white/50 mt-0.5 tracking-wider">
-                    SECS
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+                )}
+              </React.Fragment>
+            ))}
+          </span>
+        </motion.button>
+      )}
+    </AnimatePresence>
   );
 };
 

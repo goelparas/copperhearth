@@ -14,7 +14,7 @@ const BrandStory = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="relative h-[600px] rounded-3xl overflow-hidden shadow-2xl"
+            className="relative h-[37.5rem] rounded-3xl overflow-hidden shadow-2xl"
           >
             <Image
               src="/hero.png" // Reusing hero image for brand story context

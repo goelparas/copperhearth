@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../public/logo-2.png";
+import CountdownTimer from "./CountdownTimer";
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -25,11 +27,12 @@ const Navbar = () => {
     >
       <div className="flex justify-between items-center w-full h-16 overflow-hidden px-4">
         {/* Logo */}
-        <div className=" md:hidden" />
         <Link href="/" className="flex items-center cursor-pointer  h-full">
           <Image src={logo} alt="Copper Hearth" width={100} priority />
         </Link>
-        <div className="flex items-center" />
+        <div className="flex items-center justify-end">
+          <CountdownTimer />
+        </div>
       </div>
     </nav>
   );

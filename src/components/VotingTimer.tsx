@@ -88,14 +88,14 @@ const VotingTimer = () => {
       exit={{ opacity: 0, x: -20 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="
-        flex items-center justify-center
+        flex items-center justify-around
         sm:justify-start
         gap-3 sm:gap-4
         w-full sm:w-auto
         bg-brand-forest
         text-[#E9DED1]
-        py-1.5 px-3.5
-      rounded-sm
+        rounded-xl
+        py-2
         border border-white/5
         shadow-md shadow-brand-forest/10
       "
@@ -103,22 +103,19 @@ const VotingTimer = () => {
       {/* Icon */}
       <div
         className="
-          w-8 h-8
           rounded-xl
-          bg-brand-copper
-          flex items-center justify-center
-          text-brand-forest
+          flex items-center justify-start
           shrink-0
         "
       >
-        <Clock size={16} />
+        <Clock size={32} />
       </div>
 
       {/* Timer */}
       <div className="flex flex-col">
         <span
           className="
-            text-[6px] sm:text-[7px]
+            text-[0.375rem] sm:text-[0.4375rem]
             font-bold
             tracking-widest
             text-[#E9DED1]/60
@@ -142,7 +139,7 @@ const VotingTimer = () => {
                 <span
                   className="
                     font-serif
-                    text-[13px]
+                    text-xs
                     font-bold
                     text-white
                     leading-none
@@ -153,7 +150,7 @@ const VotingTimer = () => {
 
                 <span
                   className="
-                    text-[5px]
+                    text-[0.3125rem]
                     text-[#E9DED1]/50
                     mt-0.5
                     font-semibold
@@ -169,7 +166,7 @@ const VotingTimer = () => {
                 <span
                   className="
                     text-white/40
-                    text-[9px]
+                    text-xs
                     font-bold
                     leading-none
                   "
@@ -198,7 +195,7 @@ const VotingTimer = () => {
       >
         <span
           className="
-            text-[8px]
+            text-[0.5rem]
             font-sans
             font-bold
             text-white
@@ -211,7 +208,7 @@ const VotingTimer = () => {
 
         <span
           className="
-            text-[8px]
+            text-[0.5rem]
             font-sans
             font-black
             text-brand-copper

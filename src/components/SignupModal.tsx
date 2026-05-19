@@ -95,7 +95,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
                     <span className="uppercase tracking-widest text-xs font-semibold">Access Now</span>
                     <ArrowRight size={18} />
                   </button>
-                  <p className="text-[10px] text-brand-dark/40 mt-4">
+                  <p className="text-[0.625rem] text-brand-dark/40 mt-4">
                     By joining, you agree to receive our wellness updates. Unsubscribe anytime.
                   </p>
                 </form>

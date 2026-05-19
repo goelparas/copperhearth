@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, EB_Garamond, Manrope } from "next/font/google";
+import { EB_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-sans-fallback",
-  subsets: ["latin"],
-});
 
 const manrope = Manrope({
   variable: "--font-sans",

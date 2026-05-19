@@ -20,7 +20,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, price, image, category,
       whileHover={{ y: -10 }}
       className="group bg-brand-light rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-brand-muted"
     >
-      <div className="relative h-[400px] w-full bg-brand-muted/30 overflow-hidden">
+      <div className="relative h-[25rem] w-full bg-brand-muted/30 overflow-hidden">
         <Image
           src={image}
           alt={name}
@@ -28,7 +28,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, price, image, category,
           className="object-cover transition-transform duration-700 group-hover:scale-110"
         />
         <div className="absolute top-4 left-4">
-          <span className="bg-brand-accent text-brand-light text-[10px] uppercase tracking-widest px-3 py-1 rounded-full font-semibold">
+          <span className="bg-brand-accent text-brand-light text-[0.625rem] uppercase tracking-widest px-3 py-1 rounded-full font-semibold">
             {category}
           </span>
         </div>
@@ -60,7 +60,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, price, image, category,
         </ul>
 
         <button className="w-full border border-brand-dark text-brand-dark py-4 rounded-xl flex items-center justify-center space-x-3 hover:bg-brand-dark hover:text-brand-light transition-all">
-          <span className="uppercase tracking-widest text-[10px] font-semibold">Discover More</span>
+          <span className="uppercase tracking-widest text-[0.625rem] font-semibold">Discover More</span>
         </button>
       </div>
     </motion.div>

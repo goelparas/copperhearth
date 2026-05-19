@@ -105,11 +105,11 @@ const VoteSection = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-[#F3ECE4]">
-      <div className="container mx-auto px-6 max-w-[1280px]">
+    <section className="py-8 md:py-24 bg-[#F3ECE4]">
+      <div className="container mx-auto px-6 max-w-[80rem]">
         {/* Header Content */}
-        <div className="mb-12">
-          <h2 className="text-4xl md:text-5xl font-serif text-brand-forest mb-8 leading-tight max-w-2xl">
+        <div className="mb-6">
+          <h2 className="text-3xl [400px]:text-4xl md:text-5xl font-serif text-brand-forest mb-8 leading-tight max-w-2xl">
             Choose the finish <br />
             that speaks to you.
           </h2>
@@ -128,7 +128,7 @@ const VoteSection = () => {
                   <div className="w-12 h-12 rounded-full border border-brand-copper/30 flex items-center justify-center text-brand-copper bg-white/40">
                     <Gift size={20} />
                   </div>
-                  <p className="text-brand-forest/70 text-[15px] font-medium max-w-xs">
+                  <p className="text-brand-forest/70 text-sm font-medium max-w-xs">
                     Your vote shapes what drops next.
                   </p>
                 </motion.div>
@@ -154,7 +154,7 @@ const VoteSection = () => {
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
                 onClick={() => setSelectedFinish(finish.id)}
-                className={`relative h-[410px] max-w-[260px] mx-auto w-full rounded-3xl p-5 flex flex-col justify-between cursor-pointer transition-all duration-500 overflow-hidden ${finish.color} ${
+                className={`relative h-[25.625rem] max-w-[16.25rem] mx-auto w-full rounded-3xl p-5 flex flex-col justify-between cursor-pointer transition-all duration-500 overflow-hidden ${finish.color} ${
                   selectedFinish === finish.id
                     ? "ring-2 ring-brand-copper ring-offset-4 ring-offset-[#F3ECE4]"
                     : "hover:scale-[1.02]"
@@ -163,7 +163,7 @@ const VoteSection = () => {
                 {/* Card Content Top */}
                 <div className="relative">
                   {finish.popular && (
-                    <div className="inline-flex items-center gap-1 bg-brand-copper/90 text-white text-[8px] font-bold uppercase tracking-widest px-2 py-1 rounded-full mb-3">
+                    <div className="inline-flex items-center gap-1 bg-brand-copper/90 text-white text-[0.5rem] font-bold uppercase tracking-widest px-2 py-1 rounded-full mb-3">
                       <Star size={8} fill="currentColor" />
                       Popular
                     </div>
@@ -191,7 +191,7 @@ const VoteSection = () => {
                     {finish.name}
                   </h3>
                   <p
-                    className={`text-xs mb-2 leading-relaxed max-w-[120px] text-nowrap  ${finish.textColor}`}
+                    className={`text-xs mb-2 leading-relaxed max-w-[7.5rem] text-nowrap  ${finish.textColor}`}
                   >
                     {finish.desc}
                   </p>
@@ -205,7 +205,7 @@ const VoteSection = () => {
                         {finish.votes.toLocaleString()}
                       </span>
                       <span
-                        className={`text-[9px] uppercase tracking-wider font-semibold opacity-60 ${finish.titleColor}`}
+                        className={`text-[0.5625rem] uppercase tracking-wider font-semibold opacity-60 ${finish.titleColor}`}
                       >
                         joined
                       </span>
@@ -223,7 +223,7 @@ const VoteSection = () => {
                   {/* Vote Button */}
                   <button
                     onClick={(e) => handleVoteToggle(finish.id, e)}
-                    className={`w-full py-3 rounded-xl flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 ${
+                    className={`w-full py-3 rounded-xl flex items-center justify-center gap-2 text-[0.625rem] font-bold uppercase tracking-widest transition-all duration-300 ${
                       finish.voted
                         ? "bg-brand-copper text-white shadow-md shadow-brand-copper/20"
                         : "border border-white/20 text-white hover:bg-white/10"

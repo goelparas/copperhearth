@@ -3,7 +3,6 @@
 :root {
   /* BACKGROUNDS */
   --background: #F3ECE4;
-  --bg-secondary: #EFE5DA;
   --bg-soft: #F7F2EC;
   
   /* TEXT */
@@ -16,19 +15,16 @@
   --brand-forest-hover: #0A1F1A;
   --brand-copper: #B87333;
   --brand-copper-soft: #C78A52;
-  --brand-copper-light: #D8A46D;
   
   /* UI ELEMENTS */
   --divider: #DED5CA;
   --card-border: #E8DED1;
-  --success: #7A8E74;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   
-  --color-bg-secondary: var(--bg-secondary);
   --color-bg-soft: var(--bg-soft);
   
   --color-text-secondary: var(--text-secondary);
@@ -38,11 +34,9 @@
   --color-brand-forest-hover: var(--brand-forest-hover);
   --color-brand-copper: var(--brand-copper);
   --color-brand-copper-soft: var(--brand-copper-soft);
-  --color-brand-copper-light: var(--brand-copper-light);
   
   --color-divider: var(--divider);
   --color-card-border: var(--card-border);
-  --color-success: var(--success);
 
   --font-serif: "EB Garamond", serif;
   --font-sans: "Manrope", sans-serif;
@@ -88,47 +82,121 @@
 }
 
 @layer components {
-  .subheading {
-    @apply font-sans font-normal text-text-secondary;
-    font-size: 20px;
-    line-height: 1.6;
-  }
-  
-  @media (max-width: 768px) {
-    .subheading {
-      font-size: 17px;
-    }
-  }
-
   .small-label {
     @apply font-sans font-semibold uppercase;
     font-size: 12px;
     letter-spacing: 3px;
+  }
+
+  .cert-ribbon-body {
+    height: 2.25rem;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    animation: cert-ribbon-roll 10s 5s infinite;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cert-ribbon-content {
+    opacity: 0;
+    transform: translateY(-0.75rem) scale(0.96);
+    animation: cert-ribbon-content 10s 5s infinite;
+    animation-timing-function: ease-out;
+  }
+
+  .cert-ribbon-tab {
+    opacity: 1;
+    animation: cert-ribbon-tab 10s 5s infinite;
+    animation-timing-function: ease-out;
+  }
+
+  .top-banner-text {
+    display: inline-block;
+    background: linear-gradient(
+      90deg,
+      #f3ece4 0%,
+      #f3ece4 36%,
+      #d99a5f 50%,
+      #f3ece4 64%,
+      #f3ece4 100%
+    );
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: top-banner-sheen 5.5s ease-in-out infinite;
+    will-change: background-position, letter-spacing;
+  }
+
+  @keyframes cert-ribbon-roll {
+    0%,
+    100% {
+      height: 2.25rem;
+      transform: translateY(-0.125rem);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    14%,
+    50% {
+      height: 13.75rem;
+      transform: translateY(0);
+      clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 78%, 0 88%);
+    }
+
+    64% {
+      height: 2.25rem;
+      transform: translateY(-0.125rem);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+  }
+
+  @keyframes cert-ribbon-content {
+    0%,
+    8%,
+    62%,
+    100% {
+      opacity: 0;
+      transform: translateY(-0.75rem) scale(0.96);
+    }
+
+    18%,
+    50% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes cert-ribbon-tab {
+    0%,
+    8%,
+    62%,
+    100% {
+      opacity: 1;
+    }
+
+    14%,
+    56% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes top-banner-sheen {
+    0%,
+    38%,
+    100% {
+      background-position: 110% 0;
+      letter-spacing: 0.2em;
+    }
+
+    58% {
+      background-position: -10% 0;
+      letter-spacing: 0.23em;
+    }
   }
   
   @media (max-width: 768px) {
     .small-label {
       font-size: 11px;
       letter-spacing: 2px;
-    }
-  }
-
-  .btn-primary {
-    @apply bg-brand-forest text-white rounded-full font-sans font-semibold uppercase transition-all duration-300 flex items-center justify-center;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    height: 54px;
-    padding: 0 28px;
-  }
-  
-  .btn-primary:hover {
-    @apply bg-brand-forest-hover;
-    transform: translateY(-2px);
-  }
-
-  @media (max-width: 768px) {
-    .btn-primary {
-      height: 50px;
     }
   }
 }

@@ -15,7 +15,7 @@ const StickyBanner = () => {
             onClick={() => setIsModalOpen(true)}
             className="group flex items-center space-x-2 text-brand-light hover:text-brand-accent transition-colors"
           >
-            <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-medium">
+            <span className="text-[0.625rem] sm:text-xs uppercase tracking-[0.2em] font-medium">
               Join now and access now
             </span>
             <motion.span
