@@ -84,18 +84,18 @@ const CountdownTimer = () => {
           animate={{ opacity: 1, x: 0, scale: 1 }}
           exit={{ opacity: 0, x: 12, scale: 0.96 }}
           transition={{ duration: 0.35, ease: "easeIn" }}
-          className="flex items-center gap-1.5 rounded-full border border-brand-copper/30 bg-[#F5EFEB]/95 px-2 py-1.5 shadow-lg shadow-brand-forest/10 backdrop-blur-md transition-transform active:scale-95 sm:gap-2 sm:px-2.5"
+          className="flex items-center gap-1.5 rounded-full border border-brand-copper/30 bg-[#F5EFEB]/95 p-3 md:px-8 shadow-lg shadow-brand-forest/10 backdrop-blur-md transition-transform active:scale-95 sm:gap-2 sm:px-2.5"
           aria-label="Extra 10 percent offer ending soon"
         >
           <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-forest text-brand-copper sm:h-7 sm:w-7">
             <Flame size={13} className="fill-current sm:size-3.5" />
           </span>
 
-          <span className="flex min-w-0 max-w-[5.25rem] flex-col text-left leading-none sm:max-w-none">
-            <span className="truncate text-[0.42rem] font-black uppercase tracking-[0.1em] text-brand-forest sm:text-[0.5rem] sm:tracking-[0.14em]">
+          <span className="flex min-w-0   flex-col text-left leading-none sm:max-w-none">
+            <span className="truncate text-[0.42rem] md:text-sm font-black uppercase tracking-widest text-brand-forest sm:text-[0.5rem] sm:tracking-[0.14em]">
               Exclusive Offer
             </span>
-            <span className="mt-0.5 truncate text-[0.42rem] font-bold text-brand-copper sm:mt-1 sm:text-[0.5rem]">
+            <span className="mt-0.5 truncate text-[0.42rem] md:text-sm  font-bold text-brand-copper sm:mt-1 sm:text-[0.5rem]">
               Extra 10% Ending Soon
             </span>
           </span>
@@ -108,7 +108,7 @@ const CountdownTimer = () => {
             ].map((item, index) => (
               <React.Fragment key={item.label}>
                 <span className="flex min-w-[1.35rem] flex-col items-center rounded-md bg-brand-forest px-1 py-1 sm:min-w-[1.55rem] sm:px-1.5">
-                  <span className="font-serif text-[0.68rem] font-bold text-brand-copper sm:text-[0.75rem]">
+                  <span className="font-serif text-[0.68rem] font-bold text-white sm:text-sm">
                     {item.value}
                   </span>
                   <span className="text-[0.25rem] font-bold uppercase tracking-wider text-white/50">

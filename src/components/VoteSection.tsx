@@ -4,8 +4,9 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Heart, Star, Gift } from "lucide-react";
+import VotingButton from '@/components/VotingButton'
 import VotingTimer from "./VotingTimer";
-
+import VotingTimerDesktop from '@/components/VotingTimerDesktop'
 interface Finish {
   id: string;
   name: string;
@@ -105,42 +106,62 @@ const VoteSection = () => {
   };
 
   return (
-    <section className="py-8 md:py-24 bg-[#F3ECE4]">
-      <div className="container mx-auto px-6 max-w-[80rem]">
+    <section className="py-12 md:py-24 lg:py-32 bg-[#F3ECE4]">
+      <div className="container mx-auto px-6 max-w-7xl">
         {/* Header Content */}
-        <div className="mb-6">
-          <h2 className="text-3xl [400px]:text-4xl md:text-5xl font-serif text-brand-forest mb-8 leading-tight max-w-2xl">
-            Choose the finish <br />
-            that speaks to you.
-          </h2>
+        {/* Header Content */}
+<div className="mb-10 md:mb-16 lg:mb-20 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 lg:gap-16">
+  
+  {/* Left */}
+  <div className="max-w-3xl">
+    <h2 className="text-3xl [400px]:text-4xl md:text-5xl lg:text-6xl font-serif text-brand-forest leading-[0.95] tracking-[-0.04em]">
+      Choose the finish <br />
+      that speaks to you.
+    </h2>
 
-          <div className="relative overflow-hidden h-14 flex items-center select-none w-full sm:w-auto">
-            <AnimatePresence mode="wait">
-              {activeTab === "text" ? (
-                <motion.div
-                  key="text-block"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                  className="flex items-center gap-4 absolute w-full sm:w-auto justify-center sm:justify-start"
-                >
-                  <div className="w-12 h-12 rounded-full border border-brand-copper/30 flex items-center justify-center text-brand-copper bg-white/40">
-                    <Gift size={20} />
-                  </div>
-                  <p className="text-brand-forest/70 text-sm font-medium max-w-xs">
-                    Your vote shapes what drops next.
-                  </p>
-                </motion.div>
-              ) : (
-                <VotingTimer />
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
+    {/* Mobile supporting text */}
+    <p className="mt-4 md:mt-5 text-sm md:text-base text-brand-forest/65 leading-relaxed max-w-md lg:hidden">
+      Vote for your favorite one. <br/> The most loved design ships first during launcsh.
+    </p>
+  </div>
+
+  {/* Right Desktop Premium Panel */}
+  <div className="w-full lg:w-auto shrink-0">
+    
+    {/* MOBILE VERSION — untouched feeling */}
+    <div className="lg:hidden relative overflow-hidden h-20 flex items-center select-none">
+      <AnimatePresence mode="wait">
+        {activeTab === "text" ? (
+          <motion.div
+            key="text-block"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="flex items-center gap-4 absolute w-full"
+          >
+            <div className="w-12 h-12 rounded-full border border-brand-copper/30 flex items-center justify-center text-brand-copper bg-white/40 shadow-xs">
+              <Gift size={20} />
+            </div>
+
+            <p className="text-brand-forest/70 text-sm font-medium">
+              Your vote shapes what drops next.
+            </p>
+          </motion.div>
+        ) : (
+          <VotingTimer />
+        )}
+      </AnimatePresence>
+    </div>
+    <div className="md:block hidden">
+
+         <VotingTimerDesktop/>
+    </div>
+  </div>
+</div>
 
         {/* Finish Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 xl:gap-10">
           {finishesList.map((finish, index) => {
             // Compute percentage dynamically for the progress bar
             const percentage =
@@ -154,24 +175,33 @@ const VoteSection = () => {
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
                 onClick={() => setSelectedFinish(finish.id)}
-                className={`relative h-[25.625rem] max-w-[16.25rem] mx-auto w-full rounded-3xl p-5 flex flex-col justify-between cursor-pointer transition-all duration-500 overflow-hidden ${finish.color} ${
+                className={`group relative h-114 sm:h-120 lg:h-126 max-w-75 sm:max-w-none mx-auto w-full rounded-3xl p-6 sm:p-7 flex flex-col justify-between cursor-pointer transition-all duration-500 overflow-hidden border ${
+                  finish.id === "champagne" ? "border-brand-forest/10" : "border-white/10"
+                } ${finish.color} ${
                   selectedFinish === finish.id
                     ? "ring-2 ring-brand-copper ring-offset-4 ring-offset-[#F3ECE4]"
-                    : "hover:scale-[1.02]"
+                    : "hover:-translate-y-1.5 hover:shadow-xl hover:shadow-brand-forest/10"
                 }`}
               >
+                {/* Subtle rich gradient lighting overlay */}
+                <div className={`absolute inset-0 pointer-events-none bg-linear-to-b from-white/${finish.id === "champagne" ? "20" : "10"} to-transparent`} />
+
                 {/* Card Content Top */}
-                <div className="relative">
+                <div className="relative z-10 w-full">
                   {finish.popular && (
-                    <div className="inline-flex items-center gap-1 bg-brand-copper/90 text-white text-[0.5rem] font-bold uppercase tracking-widest px-2 py-1 rounded-full mb-3">
+                    <div className="inline-flex items-center gap-1 bg-brand-copper/90 text-white text-[0.5rem] sm:text-[0.5625rem] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-4 shadow-sm">
                       <Star size={8} fill="currentColor" />
                       Popular
                     </div>
                   )}
 
                   {/* Product Image Area */}
-                  <div className="h-40 relative mb-3 flex items-center justify-center bg-white/5 rounded-xl overflow-hidden">
-                    <div className="w-full h-full p-2 transition-transform duration-700 group-hover:scale-110">
+                  <div className={`h-40 sm:h-44 lg:h-48 xl:h-52 relative mb-4 flex items-center justify-center rounded-2xl overflow-hidden transition-all duration-500 shadow-inner border ${
+                    finish.id === "champagne" 
+                      ? "bg-brand-forest/[0.04] border-brand-forest/5" 
+                      : "bg-white/[0.06] border-white/5"
+                  }`}>
+                    <div className="w-full h-full p-2 transition-transform duration-700 group-hover:scale-108">
                       <Image
                         src={finish.image}
                         alt={finish.name}
@@ -184,61 +214,72 @@ const VoteSection = () => {
                 </div>
 
                 {/* Card Content Bottom */}
-                <div className="relative z-10">
+                <div className="relative z-10 w-full mt-auto">
                   <h3
-                    className={`text-xl font-serif mb-1 ${finish.titleColor}`}
+                    className={`text-xl sm:text-2xl font-serif mb-1.5 tracking-wide leading-snug ${finish.titleColor}`}
                   >
                     {finish.name}
                   </h3>
                   <p
-                    className={`text-xs mb-2 leading-relaxed max-w-[7.5rem] text-nowrap  ${finish.textColor}`}
+                    className={`text-xs sm:text-sm mb-4 leading-relaxed opacity-85 ${finish.textColor}`}
                   >
                     {finish.desc}
                   </p>
 
                   {/* Progress Bar showing actual votes in thousands */}
-                  <div className="mb-4">
-                    <div className="flex justify-between items-end mb-1">
+                  <div className="mb-5">
+                    <div className="flex justify-between items-end mb-1.5">
                       <span
-                        className={`text-lg font-bold ${finish.titleColor}`}
+                        className={`text-xl sm:text-2xl font-bold tracking-tight ${finish.titleColor}`}
                       >
                         {finish.votes.toLocaleString()}
                       </span>
                       <span
-                        className={`text-[0.5625rem] uppercase tracking-wider font-semibold opacity-60 ${finish.titleColor}`}
+                        className={`text-[10px] sm:text-xs uppercase tracking-widest font-semibold opacity-70 ${finish.titleColor}`}
                       >
                         joined
                       </span>
                     </div>
-                    <div className="h-0.5 w-full bg-white/20 overflow-hidden">
+                    <div className={`h-1.5 w-full rounded-full overflow-hidden border ${
+                      finish.id === "champagne" 
+                        ? "bg-brand-forest/10 border-brand-forest/5" 
+                        : "bg-white/15 border-white/5"
+                    }`}>
                       <motion.div
                         initial={{ width: 0 }}
                         whileInView={{ width: `${percentage}%` }}
                         transition={{ duration: 1, delay: 0.5 }}
-                        className={`h-full ${finish.id === "champagne" ? "bg-brand-copper" : "bg-white"}`}
+                        className={`h-full rounded-full ${finish.id === "champagne" ? "bg-brand-copper" : "bg-white"}`}
                       />
                     </div>
                   </div>
 
                   {/* Vote Button */}
-                  <button
+                  {/* <button
                     onClick={(e) => handleVoteToggle(finish.id, e)}
-                    className={`w-full py-3 rounded-xl flex items-center justify-center gap-2 text-[0.625rem] font-bold uppercase tracking-widest transition-all duration-300 ${
+                    className={`w-full py-3.5 rounded-xl flex items-center justify-center gap-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer active:scale-98 ${
                       finish.voted
                         ? "bg-brand-copper text-white shadow-md shadow-brand-copper/20"
                         : "border border-white/20 text-white hover:bg-white/10"
                     } ${finish.id === "champagne" && !finish.voted ? "border-brand-forest/20 text-brand-forest hover:bg-brand-forest/5" : ""}`}
                   >
                     <Heart
-                      size={12}
+                      size={13}
                       fill={finish.voted ? "currentColor" : "none"}
+                      className={finish.voted ? "scale-110 transition-transform duration-300" : ""}
                     />
                     {finish.voted ? "Voted" : "Vote"}
-                  </button>
+                  </button> */}
+                  <VotingButton
+  voted={finish.voted}
+  finishId={finish.id}
+  onVote={(e) => handleVoteToggle(finish.id, e)}
+  isChampagne={finish.id === "champagne"}
+/>
                 </div>
 
                 {/* Decorative GH Logo Background */}
-                <div className="absolute -bottom-10 -right-10 opacity-5 pointer-events-none">
+                <div className="absolute -bottom-10 -right-10 opacity-5 pointer-events-none transition-transform duration-700 group-hover:scale-105">
                   <Image
                     src="/logo.png"
                     alt=""

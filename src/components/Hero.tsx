@@ -16,11 +16,11 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-[90lvh] overflow-hidden bg-background bg-linear-to-t from-brand-copper/20 to-brand-copper/10 pt-28 lg:h-[calc(100svh-2.625rem)] lg:min-h-[42rem] lg:pt-36">
+    <section className="relative h-[90lvh] overflow-hidden bg-background bg-linear-to-t from-brand-copper/20 to-brand-copper/10 pt-28 lg:h-[calc(100svh-2.625rem)] lg:min-h-168 lg:pt-36">
       <CertificationRibbon />
-      <div className="container relative z-10 mx-auto grid h-full max-w-[90rem] grid-cols-1 items-start px-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:px-10 xl:px-16">
+      <div className="container relative z-10 mx-auto md:mx-0 grid h-full max-w-full grid-cols-1 items-start px-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
         {/* Text Content */}
-        <div className="z-10 flex h-[50lvh] max-w-[32.5rem] flex-col items-left text-center lg:h-auto lg:max-w-[36rem] lg:items-start lg:pb-20 lg:pt-4 lg:text-left xl:max-w-[39rem]">
+        <div className="z-10 flex h-[50lvh] md:pl-24 max-w-130 flex-col items-left text-center lg:h-auto lg:max-w-xl lg:items-start lg:pb-20 lg:pt-4 lg:text-left xl:max-w-156">
           <motion.h1
             initial={{ opacity: 0, y: "1.20rem" }}
             animate={{ opacity: 1, y: 0 }}
@@ -70,7 +70,7 @@ const Hero = () => {
         </div>
 
         {/* Product Image Area */}
-        <div className="absolute bottom-0 h-[40lvh] w-full md:relative md:bottom-auto lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-[58vw] xl:w-[60vw]">
+        <div className="absolute bottom-0 right-0 h-[40lvh] w-full md:w-1/2 md:relative md:bottom-auto lg:absolute lg:inset-y-0 lg:right-0 lg:h-full ">
           <motion.div
             initial={{ opacity: 0, x: "1.25rem" }}
             animate={{ opacity: 1, x: 0 }}
@@ -81,8 +81,7 @@ const Hero = () => {
               src={hero}
               alt="Copper Hearth Products"
               fill
-              sizes="(max-width: 1024px) 100vw, 60vw"
-              className="z-20 object-cover object-center lg:object-[58%_50%]"
+              className="z-20 object-cover object-center"
               priority
             />
           </motion.div>

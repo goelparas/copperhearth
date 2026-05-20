@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Clock } from "lucide-react";
+import { Clock3 } from "lucide-react";
 
 interface TimeLeft {
   days: string;
@@ -11,14 +11,14 @@ interface TimeLeft {
   seconds: string;
 }
 
-const STORAGE_KEY = "copper-heritage-voting-end-time";
+const STORAGE_KEY = "copperheritage_vote_timer";
 
 const VotingTimer = () => {
   const [mounted, setMounted] = useState(false);
 
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: "00",
-    hours: "24",
+    hours: "00",
     minutes: "00",
     seconds: "00",
   });
@@ -26,56 +26,70 @@ const VotingTimer = () => {
   useEffect(() => {
     setMounted(true);
 
-    // Persist timer even after unmount / refresh
-    let savedTarget = localStorage.getItem(STORAGE_KEY);
-
+    // Create / restore persistent target time
     let targetTime: number;
 
-    if (savedTarget) {
-      targetTime = parseInt(savedTarget, 10);
-    } else {
-      targetTime = Date.now() + 24 * 60 * 60 * 1000;
+    if (typeof window !== "undefined") {
+      const savedTarget = localStorage.getItem(STORAGE_KEY);
 
-      localStorage.setItem(STORAGE_KEY, targetTime.toString());
-    }
+      if (savedTarget) {
+        targetTime = Number(savedTarget);
+      } else {
+        // 24 hours from first visit
+        targetTime = Date.now() + 24 * 60 * 60 * 1000;
 
-    const updateTimer = () => {
-      const difference = targetTime - Date.now();
-
-      if (difference <= 0) {
-        setTimeLeft({
-          days: "00",
-          hours: "00",
-          minutes: "00",
-          seconds: "00",
-        });
-
-        localStorage.removeItem(STORAGE_KEY);
-
-        return;
+        localStorage.setItem(STORAGE_KEY, targetTime.toString());
       }
 
-      const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const updateTimer = () => {
+        const now = Date.now();
 
-      const h = Math.floor((difference / (1000 * 60 * 60)) % 24);
+        const difference = targetTime - now;
 
-      const m = Math.floor((difference / 1000 / 60) % 60);
+        if (difference <= 0) {
+          setTimeLeft({
+            days: "00",
+            hours: "00",
+            minutes: "00",
+            seconds: "00",
+          });
 
-      const s = Math.floor((difference / 1000) % 60);
+          clearInterval(interval);
 
-      setTimeLeft({
-        days: d.toString().padStart(2, "0"),
-        hours: h.toString().padStart(2, "0"),
-        minutes: m.toString().padStart(2, "0"),
-        seconds: s.toString().padStart(2, "0"),
-      });
-    };
+          return;
+        }
 
-    updateTimer();
+        const days = Math.floor(
+          difference / (1000 * 60 * 60 * 24),
+        );
 
-    const interval = setInterval(updateTimer, 1000);
+        const hours = Math.floor(
+          (difference / (1000 * 60 * 60)) % 24,
+        );
 
-    return () => clearInterval(interval);
+        const minutes = Math.floor(
+          (difference / (1000 * 60)) % 60,
+        );
+
+        const seconds = Math.floor(
+          (difference / 1000) % 60,
+        );
+
+        setTimeLeft({
+          days: String(days).padStart(2, "0"),
+          hours: String(hours).padStart(2, "0"),
+          minutes: String(minutes).padStart(2, "0"),
+          seconds: String(seconds).padStart(2, "0"),
+        });
+      };
+
+      // Initial call
+      updateTimer();
+
+      const interval = setInterval(updateTimer, 1000);
+
+      return () => clearInterval(interval);
+    }
   }, []);
 
   if (!mounted) return null;
@@ -83,124 +97,117 @@ const VotingTimer = () => {
   return (
     <motion.div
       key="timer-block"
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.45 }}
       className="
-        flex items-center justify-around
-        sm:justify-start
-        gap-3 sm:gap-4
+        flex items-center justify-between
         w-full sm:w-auto
+        gap-4
+        p-2
+        sm:px-5 sm:py-3.5
         bg-brand-forest
-        text-[#E9DED1]
-        rounded-xl
-        py-2
-        border border-white/5
-        shadow-md shadow-brand-forest/10
+        border 
+        shadow-[0_10px_30px_rgba(0,0,0,0.12)]
+        select-none
+        rounded-2xl
       "
     >
-      {/* Icon */}
-      <div
-        className="
-          rounded-xl
-          flex items-center justify-start
-          shrink-0
-        "
-      >
-        <Clock size={32} />
-      </div>
-
-      {/* Timer */}
-      <div className="flex flex-col">
-        <span
+      {/* Left */}
+      <div className="flex items-center gap-4">
+        {/* Icon */}
+        <div
           className="
-            text-[0.375rem] sm:text-[0.4375rem]
-            font-bold
-            tracking-widest
-            text-[#E9DED1]/60
-            uppercase
-            leading-none
-            mb-1
+            w-12 h-12
+            rounded-xl
+            border border-white/10
+            bg-white/3
+            flex items-center justify-center
+            shrink-0
           "
         >
-          VOTING CLOSES IN
-        </span>
+          <Clock3
+            size={20}
+            className="text-[#E9DED1]"
+            strokeWidth={2}
+          />
+        </div>
 
-        <div className="flex items-center space-x-1.5 leading-none">
-          {[
-            { label: "days", value: timeLeft.days },
-            { label: "hrs", value: timeLeft.hours },
-            { label: "min", value: timeLeft.minutes },
-            { label: "sec", value: timeLeft.seconds },
-          ].map((item, idx) => (
-            <React.Fragment key={item.label}>
-              <div className="flex flex-col items-center">
-                <span
-                  className="
-                    font-serif
-                    text-xs
-                    font-bold
-                    text-white
-                    leading-none
-                  "
-                >
-                  {item.value}
-                </span>
+        {/* Timer */}
+        <div className="flex flex-col">
+          <span
+            className="
+              text-[0.55rem]
+              font-semibold
+              tracking-[0.22em]
+              uppercase
+              text-[#E9DED1]/55
+              mb-2
+            "
+          >
+            Voting closes in
+          </span>
 
-                <span
-                  className="
-                    text-[0.3125rem]
-                    text-[#E9DED1]/50
-                    mt-0.5
-                    font-semibold
-                    tracking-wider
-                    uppercase
-                  "
-                >
-                  {item.label}
-                </span>
-              </div>
+          <div className="flex items-center gap-3">
+            {[
+              { label: "Days", value: timeLeft.days },
+              { label: "Hrs", value: timeLeft.hours },
+              { label: "Min", value: timeLeft.minutes },
+              { label: "Sec", value: timeLeft.seconds },
+            ].map((item, idx) => (
+              <React.Fragment key={item.label}>
+                <div className="flex flex-col items-center min-w-[28px]">
+                  <span
+                    className="
+                      text-white
+                      text-lg
+                      sm:text-xl
+                      font-semibold
+                      tracking-tight
+                      leading-none
+                    "
+                  >
+                    {item.value}
+                  </span>
 
-              {idx !== 3 && (
-                <span
-                  className="
-                    text-white/40
-                    text-xs
-                    font-bold
-                    leading-none
-                  "
-                >
-                  :
-                </span>
-              )}
-            </React.Fragment>
-          ))}
+                  <span
+                    className="
+                      mt-1
+                      text-[0.48rem]
+                      uppercase
+                      tracking-[0.18em]
+                      text-[#E9DED1]/45
+                      font-medium
+                    "
+                  >
+                    {item.label}
+                  </span>
+                </div>
+
+                {idx !== 3 && (
+                  <span className="text-white/20 text-lg font-semibold -mt-3">
+                    :
+                  </span>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Divider */}
-      <div className="w-0.5 h-6 bg-white/10 self-stretch shrink-0" />
+      <div className="hidden sm:block w-px self-stretch bg-white/8" />
 
-      {/* Right Text */}
-      <div
-        className="
-          flex flex-col
-          pl-1
-          text-left
-          leading-tight
-          select-none
-          shrink-0
-        "
-      >
+      {/* Right */}
+      <div className="hidden sm:flex flex-col shrink-0">
         <span
           className="
-            text-[0.5rem]
-            font-sans
-            font-bold
-            text-white
+            text-[0.52rem]
             uppercase
-            tracking-tight
+            tracking-[0.22em]
+            text-[#E9DED1]/45
+            font-semibold
           "
         >
           Top voted
@@ -208,15 +215,14 @@ const VotingTimer = () => {
 
         <span
           className="
-            text-[0.5rem]
-            font-sans
-            font-black
+            mt-1
             text-brand-copper
-            uppercase
-            tracking-tight
+            text-sm
+            font-semibold
+            tracking-wide
           "
         >
-          ships first
+          Ships First
         </span>
       </div>
     </motion.div>

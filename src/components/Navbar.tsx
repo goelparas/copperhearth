@@ -25,11 +25,14 @@ const Navbar = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="flex justify-between items-center w-full h-16 overflow-hidden px-4">
+      <div className="flex justify-between items-center w-full  overflow-hidden px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center cursor-pointer  h-full">
-          <Image src={logo} alt="Copper Hearth" width={100} priority />
+        <div className="w-22 h-22  sm:w-28 sm:h-28">
+        <Link href="/" className="flex relative items-center cursor-pointer  h-full w-full">
+          <Image src={logo} alt="Copper Hearth"  fill priority objectFit="contain" />
         </Link>
+        </div>
+        
         <div className="flex items-center justify-end">
           <CountdownTimer />
         </div>

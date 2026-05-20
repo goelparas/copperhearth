@@ -9,7 +9,7 @@ const StickyBanner = () => {
 
   return (
     <>
-      <div className="fixed top-0 w-full z-[60] bg-brand-dark py-2 px-4">
+      <div className="fixed top-0 w-full z-[60] bg-brand-dark py-4 px-4">
         <div className="container mx-auto flex justify-center items-center">
           <button 
             onClick={() => setIsModalOpen(true)}
