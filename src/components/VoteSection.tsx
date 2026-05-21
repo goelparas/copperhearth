@@ -175,7 +175,7 @@ const VoteSection = () => {
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
                 onClick={() => setSelectedFinish(finish.id)}
-                className={`group relative h-114 sm:h-120 lg:h-126 max-w-75 sm:max-w-none mx-auto w-full rounded-3xl p-6 sm:p-7 flex flex-col justify-between cursor-pointer transition-all duration-500 overflow-hidden border ${
+                className={`group relative max-w-75 sm:max-w-none mx-auto w-full rounded-3xl p-6 sm:p-7 flex flex-col justify-between cursor-pointer transition-all duration-500 overflow-hidden border ${
                   finish.id === "champagne" ? "border-brand-forest/10" : "border-white/10"
                 } ${finish.color} ${
                   selectedFinish === finish.id
@@ -196,10 +196,10 @@ const VoteSection = () => {
                   )}
 
                   {/* Product Image Area */}
-                  <div className={`h-40 sm:h-44 lg:h-48 xl:h-52 relative mb-4 flex items-center justify-center rounded-2xl overflow-hidden transition-all duration-500 shadow-inner border ${
+                  <div className={`h-44 lg:h-48 xl:h-52 relative mb-4 flex items-center justify-center rounded-2xl overflow-hidden transition-all duration-500 shadow-inner border ${
                     finish.id === "champagne" 
-                      ? "bg-brand-forest/[0.04] border-brand-forest/5" 
-                      : "bg-white/[0.06] border-white/5"
+                      ? "bg-brand-forest/4 border-brand-forest/5" 
+                      : "bg-white/6 border-white/5"
                   }`}>
                     <div className="w-full h-full p-2 transition-transform duration-700 group-hover:scale-108">
                       <Image

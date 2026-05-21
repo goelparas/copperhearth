@@ -28,9 +28,10 @@ const DesktopTimer = () => {
     let targetTime: number;
 
     const savedTarget = localStorage.getItem(STORAGE_KEY);
+    const savedTime = savedTarget ? Number(savedTarget) : 0;
 
-    if (savedTarget) {
-      targetTime = Number(savedTarget);
+    if (savedTime && savedTime > Date.now()) {
+      targetTime = savedTime;
     } else {
       // 24 hours countdown
       targetTime = Date.now() + 24 * 60 * 60 * 1000;
@@ -51,9 +52,7 @@ const DesktopTimer = () => {
           seconds: "00",
         });
 
-        clearInterval(interval);
-
-        return;
+        return true; // expired
       }
 
       const days = Math.floor(
@@ -78,13 +77,28 @@ const DesktopTimer = () => {
         minutes: String(minutes).padStart(2, "0"),
         seconds: String(seconds).padStart(2, "0"),
       });
+
+      return false; // not expired
     };
 
-    updateTimer();
+    const isExpired = updateTimer();
 
-    const interval = setInterval(updateTimer, 1000);
+    let interval: NodeJS.Timeout | undefined;
 
-    return () => clearInterval(interval);
+    if (!isExpired) {
+      interval = setInterval(() => {
+        const expired = updateTimer();
+        if (expired && interval) {
+          clearInterval(interval);
+        }
+      }, 1000);
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, []);
 
   if (!mounted) return null;

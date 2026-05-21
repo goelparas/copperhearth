@@ -13,8 +13,28 @@ const ebGaramond = EB_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Copper Hearth | Premium  Copper Wellness",
-  description: "Experience the elegance of handcrafted copper wellness products. Authentic, sustainable, and designed for modern living.",
+  metadataBase: new URL("https://copperhearth.com"),
+  title: "Copper Hearth | Premium Copper Wellness",
+  description: "The water you drink matters more than the supplements you take. Experience the elegance of handcrafted copper wellness products designed for modern living.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.ico", type: "image/x-icon" }
+    ],
+    apple: "/favicon.ico",
+  },
+  openGraph: {
+    title: "Copper Hearth | Premium Copper Wellness",
+    description: "The water you drink matters more than the supplements you take. Experience the elegance of handcrafted copper wellness products designed for modern living.",
+    siteName: "Copper Hearth",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Copper Hearth | Premium Copper Wellness",
+    description: "The water you drink matters more than the supplements you take. Experience the elegance of handcrafted copper wellness products designed for modern living.",
+  },
 };
 
 export default function RootLayout({

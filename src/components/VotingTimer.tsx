@@ -31,9 +31,10 @@ const VotingTimer = () => {
 
     if (typeof window !== "undefined") {
       const savedTarget = localStorage.getItem(STORAGE_KEY);
+      const savedTime = savedTarget ? Number(savedTarget) : 0;
 
-      if (savedTarget) {
-        targetTime = Number(savedTarget);
+      if (savedTime && savedTime > Date.now()) {
+        targetTime = savedTime;
       } else {
         // 24 hours from first visit
         targetTime = Date.now() + 24 * 60 * 60 * 1000;
@@ -54,9 +55,7 @@ const VotingTimer = () => {
             seconds: "00",
           });
 
-          clearInterval(interval);
-
-          return;
+          return true; // expired
         }
 
         const days = Math.floor(
@@ -81,14 +80,29 @@ const VotingTimer = () => {
           minutes: String(minutes).padStart(2, "0"),
           seconds: String(seconds).padStart(2, "0"),
         });
+
+        return false; // not expired
       };
 
       // Initial call
-      updateTimer();
+      const isExpired = updateTimer();
 
-      const interval = setInterval(updateTimer, 1000);
+      let interval: NodeJS.Timeout | undefined;
 
-      return () => clearInterval(interval);
+      if (!isExpired) {
+        interval = setInterval(() => {
+          const expired = updateTimer();
+          if (expired && interval) {
+            clearInterval(interval);
+          }
+        }, 1000);
+      }
+
+      return () => {
+        if (interval) {
+          clearInterval(interval);
+        }
+      };
     }
   }, []);
 
