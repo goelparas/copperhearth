@@ -6,9 +6,11 @@ import { ArrowRight, Flame } from "lucide-react";
 import hero from "../../public/hero.png";
 import JoinedCounter from "./JoinedCounter";
 import CertificationRibbon from "./CertificationRibbon";
+import { trackInteraction } from "@/utils/analytics";
 
 const Hero = () => {
   const handleScrollToSignup = () => {
+    trackInteraction("hero_cta_click", { destination: "#signup" });
     const el = document.getElementById("signup");
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });

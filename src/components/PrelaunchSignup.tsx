@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { z } from "zod";
+import { trackSignup } from "@/utils/analytics";
 
 // Zod schema for 10-digit phone number validation
 const phoneSchema = z
@@ -47,6 +48,9 @@ const PrelaunchSignup = () => {
 
     setIsSubmitting(true);
     setErrorMsg("");
+
+    // Track the signup event with GA (safely masking the inputs)
+    trackSignup(email, phone, "inline");
 
     try {
       const response = await fetch("/api/signup", {

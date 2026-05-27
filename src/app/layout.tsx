@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { EB_Garamond, Manrope } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -45,6 +46,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${manrope.variable} ${ebGaramond.variable}`}>
       <body className="antialiased bg-brand-copper-soft">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-7B2H05BPTZ"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-7B2H05BPTZ');
+          `}
+        </Script>
         {children}
       </body>
     </html>

@@ -7,6 +7,8 @@ import { Heart, Star, Gift } from "lucide-react";
 import VotingButton from '@/components/VotingButton'
 import VotingTimer from "./VotingTimer";
 import VotingTimerDesktop from '@/components/VotingTimerDesktop'
+import { trackVote } from "@/utils/analytics";
+
 interface Finish {
   id: string;
   name: string;
@@ -76,6 +78,31 @@ const VoteSection = () => {
   const [selectedFinish, setSelectedFinish] = useState<string>("champagne");
   const [activeTab, setActiveTab] = useState<"text" | "timer">("text");
 
+  // Load from localStorage on client mount
+  useEffect(() => {
+    const storedVotes = localStorage.getItem("vote_finishes_counts");
+    let parsedVotes: Record<string, number> = {};
+    if (storedVotes) {
+      try {
+        parsedVotes = JSON.parse(storedVotes);
+      } catch (e) {
+        console.error("Failed to parse stored votes:", e);
+      }
+    }
+
+    setFinishesList((prev) =>
+      prev.map((finish) => {
+        const storedVal = parsedVotes[finish.id];
+        const userVoted = localStorage.getItem(`voted_state_${finish.id}`) === "true";
+        return {
+          ...finish,
+          votes: typeof storedVal === "number" && storedVal >= finish.votes ? storedVal : finish.votes,
+          voted: userVoted,
+        };
+      })
+    );
+  }, []);
+
   // Toggle active tab every 4 seconds for elegant sliding transitions
   useEffect(() => {
     const interval = setInterval(() => {
@@ -84,25 +111,85 @@ const VoteSection = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Live simulation to increment votes by random numbers over time
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const simulateVotes = () => {
+      setFinishesList((prev) => {
+        const randomIndex = Math.floor(Math.random() * prev.length);
+        const updated = prev.map((finish, idx) => {
+          if (idx === randomIndex) {
+            const increment = Math.floor(Math.random() * 3) + 1; // 1 to 3 votes
+            return {
+              ...finish,
+              votes: finish.votes + increment,
+            };
+          }
+          return finish;
+        });
+
+        // Save new simulated counts to localStorage
+        const voteMap = updated.reduce((acc, f) => {
+          acc[f.id] = f.votes;
+          return acc;
+        }, {} as Record<string, number>);
+        localStorage.setItem("vote_finishes_counts", JSON.stringify(voteMap));
+
+        return updated;
+      });
+
+      // Schedule next simulation after 8 to 20 seconds
+      const nextDelay = (Math.random() * 12 + 8) * 1000;
+      timeoutId = setTimeout(simulateVotes, nextDelay);
+    };
+
+    const initialDelay = (Math.random() * 10 + 5) * 1000;
+    timeoutId = setTimeout(simulateVotes, initialDelay);
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
+
   // Calculate total votes dynamically
   const totalVotes = finishesList.reduce((acc, f) => acc + f.votes, 0);
 
   // Toggle vote handler
   const handleVoteToggle = (id: string, e: React.MouseEvent) => {
     e.stopPropagation(); // Avoid triggering card selection when clicking vote button
-    setFinishesList((prev) =>
-      prev.map((finish) => {
+    setFinishesList((prev) => {
+      const finishToUpdate = prev.find((f) => f.id === id);
+      if (!finishToUpdate) return prev;
+
+      const newVotedState = !finishToUpdate.voted;
+
+      // Track the vote event (casts or removes)
+      trackVote(id, finishToUpdate.name, newVotedState);
+
+      // Save user's voted state for this finish
+      localStorage.setItem(`voted_state_${id}`, newVotedState ? "true" : "false");
+
+      const updated = prev.map((finish) => {
         if (finish.id === id) {
-          const isVoted = !finish.voted;
           return {
             ...finish,
-            voted: isVoted,
-            votes: isVoted ? finish.votes + 1 : finish.votes - 1,
+            voted: newVotedState,
+            votes: newVotedState ? finish.votes + 1 : finish.votes - 1,
           };
         }
         return finish;
-      }),
-    );
+      });
+
+      // Save new counts to localStorage
+      const voteMap = updated.reduce((acc, f) => {
+        acc[f.id] = f.votes;
+        return acc;
+      }, {} as Record<string, number>);
+      localStorage.setItem("vote_finishes_counts", JSON.stringify(voteMap));
+
+      return updated;
+    });
   };
 
   return (
