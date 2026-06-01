@@ -14,7 +14,7 @@ const ebGaramond = EB_Garamond({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://copperhearth.com"),
+  metadataBase: new URL("https://www.copperhearth.shop"),
   title: "Copper Hearth | Premium Copper Wellness",
   description: "The water you drink matters more than the supplements you take. Experience the elegance of handcrafted copper wellness products designed for modern living.",
   icons: {
