@@ -67,10 +67,14 @@ const PrelaunchSignup = () => {
         console.error("Prelaunch signup API error status:", response.status);
       }
       
+      localStorage.setItem("user_email", email);
+      localStorage.setItem("user_phone", phone);
       setIsSuccess(true);
     } catch (err) {
       console.error("Prelaunch signup request failed:", err);
       // Fallback to showing success to the user to keep the UX seamless
+      localStorage.setItem("user_email", email);
+      localStorage.setItem("user_phone", phone);
       setIsSuccess(true);
     } finally {
       setIsSubmitting(false);

@@ -21,6 +21,10 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
     // Track the signup event with GA (safely masking the inputs)
     trackSignup(email, phone, "modal");
 
+    // Save user details to localStorage
+    localStorage.setItem("user_email", email);
+    localStorage.setItem("user_phone", phone);
+
     // Simulate submission
     setIsSubmitted(true);
     setTimeout(() => {

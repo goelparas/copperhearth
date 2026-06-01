@@ -1,0 +1,42 @@
+[
+  {
+    "finishId": "copper",
+    "finishName": "Classic Copper",
+    "email": "parasgoel111@gmail.com",
+    "phone": "8865904192",
+    "timestamp": "2026-06-01T16:08:14.579Z",
+    "savedToSupabase": false
+  },
+  {
+    "finishId": "champagne",
+    "finishName": "Warm Champagne",
+    "email": "parasgoel111@gmail.com",
+    "phone": "8865904192",
+    "timestamp": "2026-06-01T16:08:14.705Z",
+    "savedToSupabase": false
+  },
+  {
+    "finishId": "green",
+    "finishName": "Forest Green",
+    "email": "parasgoel111@gmail.com",
+    "phone": "8865904192",
+    "timestamp": "2026-06-01T16:08:15.193Z",
+    "savedToSupabase": false
+  },
+  {
+    "finishId": "black",
+    "finishName": "Matte Black",
+    "email": "parasgoel111@gmail.com",
+    "phone": "8865904192",
+    "timestamp": "2026-06-01T16:08:15.755Z",
+    "savedToSupabase": false
+  },
+  {
+    "finishId": "copper",
+    "finishName": "Classic Copper",
+    "email": "parasgoel111@gmail.com",
+    "phone": "8865904192",
+    "timestamp": "2026-06-01T16:13:35.181Z",
+    "savedToSupabase": true
+  }
+]

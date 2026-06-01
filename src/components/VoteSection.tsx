@@ -8,6 +8,7 @@ import VotingButton from '@/components/VotingButton'
 import VotingTimer from "./VotingTimer";
 import VotingTimerDesktop from '@/components/VotingTimerDesktop'
 import { trackVote } from "@/utils/analytics";
+import VoteModal from "./VoteModal";
 
 interface Finish {
   id: string;
@@ -77,6 +78,8 @@ const VoteSection = () => {
   const [finishesList, setFinishesList] = useState<Finish[]>(initialFinishes);
   const [selectedFinish, setSelectedFinish] = useState<string>("champagne");
   const [activeTab, setActiveTab] = useState<"text" | "timer">("text");
+  const [voteModalOpen, setVoteModalOpen] = useState(false);
+  const [pendingVoteFinish, setPendingVoteFinish] = useState<{ id: string; name: string } | null>(null);
 
   // Load from localStorage on client mount
   useEffect(() => {
@@ -155,27 +158,15 @@ const VoteSection = () => {
   // Calculate total votes dynamically
   const totalVotes = finishesList.reduce((acc, f) => acc + f.votes, 0);
 
-  // Toggle vote handler
-  const handleVoteToggle = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation(); // Avoid triggering card selection when clicking vote button
+  const castVote = async (id: string, finishName: string, email: string, phone: string) => {
+    // 1. Update state & localStorage locally (optimistic/immediate UX feedback)
     setFinishesList((prev) => {
-      const finishToUpdate = prev.find((f) => f.id === id);
-      if (!finishToUpdate) return prev;
-
-      const newVotedState = !finishToUpdate.voted;
-
-      // Track the vote event (casts or removes)
-      trackVote(id, finishToUpdate.name, newVotedState);
-
-      // Save user's voted state for this finish
-      localStorage.setItem(`voted_state_${id}`, newVotedState ? "true" : "false");
-
       const updated = prev.map((finish) => {
         if (finish.id === id) {
           return {
             ...finish,
-            voted: newVotedState,
-            votes: newVotedState ? finish.votes + 1 : finish.votes - 1,
+            voted: true,
+            votes: finish.votes + 1,
           };
         }
         return finish;
@@ -187,9 +178,85 @@ const VoteSection = () => {
         return acc;
       }, {} as Record<string, number>);
       localStorage.setItem("vote_finishes_counts", JSON.stringify(voteMap));
+      localStorage.setItem(`voted_state_${id}`, "true");
 
       return updated;
     });
+
+    // 2. Track event
+    trackVote(id, finishName, true);
+
+    // 3. Make API call to backend /api/vote
+    try {
+      await fetch("/api/vote", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          finishId: id,
+          finishName,
+          email,
+          phone,
+        }),
+      });
+    } catch (err) {
+      console.error("Failed to register vote backend API call:", err);
+    }
+  };
+
+  const removeVote = (id: string, finishName: string) => {
+    setFinishesList((prev) => {
+      const updated = prev.map((finish) => {
+        if (finish.id === id) {
+          return {
+            ...finish,
+            voted: false,
+            votes: Math.max(0, finish.votes - 1),
+          };
+        }
+        return finish;
+      });
+
+      // Save new counts to localStorage
+      const voteMap = updated.reduce((acc, f) => {
+        acc[f.id] = f.votes;
+        return acc;
+      }, {} as Record<string, number>);
+      localStorage.setItem("vote_finishes_counts", JSON.stringify(voteMap));
+      localStorage.setItem(`voted_state_${id}`, "false");
+
+      return updated;
+    });
+
+    // Track event
+    trackVote(id, finishName, false);
+  };
+
+  // Toggle vote handler
+  const handleVoteToggle = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Avoid triggering card selection when clicking vote button
+    
+    const finishToUpdate = finishesList.find((f) => f.id === id);
+    if (!finishToUpdate) return;
+
+    if (finishToUpdate.voted) {
+      // Un-vote
+      removeVote(id, finishToUpdate.name);
+    } else {
+      // Check if we have user contact details
+      const userEmail = localStorage.getItem("user_email");
+      const userPhone = localStorage.getItem("user_phone");
+
+      if (userEmail && userPhone) {
+        // Vote immediately!
+        castVote(id, finishToUpdate.name, userEmail, userPhone);
+      } else {
+        // Prompt for details using our beautiful modal
+        setPendingVoteFinish({ id, name: finishToUpdate.name });
+        setVoteModalOpen(true);
+      }
+    }
   };
 
   return (
@@ -384,6 +451,20 @@ const VoteSection = () => {
           })}
         </div>
       </div>
+      {pendingVoteFinish && (
+        <VoteModal
+          isOpen={voteModalOpen}
+          onClose={() => {
+            setVoteModalOpen(false);
+            setPendingVoteFinish(null);
+          }}
+          finishId={pendingVoteFinish.id}
+          finishName={pendingVoteFinish.name}
+          onSuccess={(email, phone) => {
+            castVote(pendingVoteFinish.id, pendingVoteFinish.name, email, phone);
+          }}
+        />
+      )}
     </section>
   );
 };

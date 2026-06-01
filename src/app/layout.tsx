@@ -19,10 +19,10 @@ export const metadata: Metadata = {
   description: "The water you drink matters more than the supplements you take. Experience the elegance of handcrafted copper wellness products designed for modern living.",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon.ico", type: "image/x-icon" }
+      { url: "/logo.ico", sizes: "any" },
+      { url: "/logo.ico", type: "image/x-icon" }
     ],
-    apple: "/favicon.ico",
+    apple: "/logo.ico",
   },
   openGraph: {
     title: "Copper Hearth | Premium Copper Wellness",
@@ -30,11 +30,20 @@ export const metadata: Metadata = {
     siteName: "Copper Hearth",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/feature.png",
+        width: 1200,
+        height: 630,
+        alt: "Copper Hearth | Premium Copper Wellness",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Copper Hearth | Premium Copper Wellness",
     description: "The water you drink matters more than the supplements you take. Experience the elegance of handcrafted copper wellness products designed for modern living.",
+    images: ["/feature.png"],
   },
 };
 

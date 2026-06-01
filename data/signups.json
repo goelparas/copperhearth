@@ -17,5 +17,12 @@
     "email": "PARASGOEL111@GMAIL.COM",
     "timestamp": "2026-05-17T13:30:33.452Z",
     "emailSent": false
+  },
+  {
+    "phone": "8865904192",
+    "email": "parasgoel111@gmail.com",
+    "timestamp": "2026-06-01T15:48:47.007Z",
+    "emailSent": false,
+    "savedToSupabase": false
   }
 ]

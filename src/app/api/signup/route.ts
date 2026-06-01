@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import fs from "fs";
 import path from "path";
+import { supabase } from "@/utils/supabase";
 
 export async function POST(request: Request) {
   try {
@@ -57,6 +58,28 @@ export async function POST(request: Request) {
       );
     }
 
+    let savedToSupabase = false;
+    if (supabase) {
+      try {
+        const { error: dbError } = await supabase
+          .from("signups")
+          .insert([
+            {
+              email: email,
+              phone: phone,
+              source: "prelaunch_signup",
+            },
+          ]);
+        if (!dbError) {
+          savedToSupabase = true;
+        } else {
+          console.error("Supabase error saving signup:", dbError.message);
+        }
+      } catch (dbErr) {
+        console.error("Supabase signup operation failed:", dbErr);
+      }
+    }
+
     // Always append/save to a local JSON file so no signups are ever lost!
     try {
       const dataDir = path.join(process.cwd(), "data");
@@ -80,6 +103,7 @@ export async function POST(request: Request) {
         email,
         timestamp: new Date().toISOString(),
         emailSent,
+        savedToSupabase,
       });
 
       fs.writeFileSync(filePath, JSON.stringify(existingSignups, null, 2), "utf8");
@@ -89,10 +113,13 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: emailSent
+      message: savedToSupabase
+        ? "Signup successful! Saved to database."
+        : emailSent
         ? "Signup successful! Email sent to hearthcopper@gmail.com."
-        : "Signup saved locally. Configure SMTP credentials to enable automated email sending.",
+        : "Signup saved locally. Configure SMTP/Supabase credentials to enable automated services.",
       emailSent,
+      savedToSupabase,
     });
   } catch (error: any) {
     console.error("Signup error:", error);
