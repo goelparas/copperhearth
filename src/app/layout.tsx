@@ -3,9 +3,9 @@ import { EB_Garamond, Manrope } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
-const siteTitle = "Copper Hearth | Handcrafted Copper Tumblers & Bottles India";
+const siteTitle = "Copper Hearth | Copper Tumblers & Bottles India";
 const siteDescription =
-  "Copper Hearth makes BIS-certified pure copper tumblers and bottles for everyday wellness. Rooted in Ayurvedic tradition, crafted for modern India. Join the first collection.";
+  "Copper Hearth makes BIS-certified pure copper tumblers and bottles for emetadata: Metadata yday wellness. Rooted in  tradition, crafted for modern India. Join the first collection.";
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -61,6 +61,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.copperhearth.shop",
   },
+  verification:{
+   google:'google-site-verification=26Gvc3By9bxQnj-ae8cf1ZHi3xmxqHsd9S3lN1sVknM'
+  }, 
   icons: {
     icon: [
       { url: "/logo.ico", sizes: "any" },

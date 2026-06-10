@@ -2,9 +2,11 @@
 
 import React from "react";
 import { Gift } from "lucide-react";
+import { trackCtaClick } from "@/utils/analytics";
 
 const Banner = () => {
   const handleScrollToSignup = () => {
+    trackCtaClick("top_banner", "#signup");
     const el = document.getElementById("signup");
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });

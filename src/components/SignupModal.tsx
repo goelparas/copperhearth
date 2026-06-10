@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Mail, Phone, ArrowRight } from "lucide-react";
-import { trackSignup } from "@/utils/analytics";
+import { trackLeadAttempt, trackSignup } from "@/utils/analytics";
 
 interface SignupModalProps {
   isOpen: boolean;
@@ -18,8 +18,8 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Track the signup event with GA (safely masking the inputs)
-    trackSignup(email, phone, "modal");
+    trackLeadAttempt("modal");
+    trackSignup("modal");
 
     // Save user details to localStorage
     localStorage.setItem("user_email", email);

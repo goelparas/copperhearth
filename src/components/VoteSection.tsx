@@ -7,7 +7,7 @@ import { Star, Gift } from "lucide-react";
 import VotingButton from '@/components/VotingButton'
 import VotingTimer from "./VotingTimer";
 import VotingTimerDesktop from '@/components/VotingTimerDesktop'
-import { trackVote } from "@/utils/analytics";
+import { trackInteraction, trackVote, trackVoteAttempt, trackVoteError } from "@/utils/analytics";
 
 interface Finish {
   id: string;
@@ -190,12 +190,12 @@ const VoteSection = () => {
       return updated;
     });
 
-    // 2. Track event
-    trackVote(id, finishName, true);
+    // 2. Track attempt
+    trackVoteAttempt(id, finishName);
 
     // 3. Make API call to backend /api/vote
     try {
-      await fetch("/api/vote", {
+      const response = await fetch("/api/vote", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -207,8 +207,15 @@ const VoteSection = () => {
           phone,
         }),
       });
+
+      if (response.ok) {
+        trackVote(id, finishName, true);
+      } else {
+        trackVoteError(id, finishName, response.status);
+      }
     } catch (err) {
       console.error("Failed to register vote backend API call:", err);
+      trackVoteError(id, finishName, "request_failed");
     }
   };
 
@@ -257,7 +264,13 @@ const VoteSection = () => {
   };
 
   return (
-    <section className="py-12 md:py-24 lg:py-32 bg-[#F3ECE4]">
+    <motion.section
+      className="py-12 md:py-24 lg:py-32 bg-[#F3ECE4]"
+      viewport={{ once: true }}
+      onViewportEnter={() => {
+        trackInteraction("section_view", { section: "vote" });
+      }}
+    >
       <div className="container mx-auto px-6 max-w-7xl">
         {/* Header Content */}
         {/* Header Content */}
@@ -325,7 +338,13 @@ const VoteSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
-                onClick={() => setSelectedFinish(finish.id)}
+                onClick={() => {
+                  setSelectedFinish(finish.id);
+                  trackInteraction("finish_select", {
+                    finish_id: finish.id,
+                    finish_name: finish.name,
+                  });
+                }}
                 className={`group relative max-w-75 sm:max-w-none mx-auto w-full rounded-3xl p-6 sm:p-7 flex flex-col justify-between cursor-pointer transition-all duration-500 overflow-hidden border ${
                   finish.id === "champagne" ? "border-brand-forest/10" : "border-white/10"
                 } ${finish.color} ${
@@ -449,7 +468,7 @@ const VoteSection = () => {
         </div>
       </div>
 
-    </section>
+    </motion.section>
   );
 };
 

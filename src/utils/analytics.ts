@@ -17,41 +17,6 @@ export function getOrCreateDeviceUUID(): string {
   return uuid;
 }
 
-export function maskEmail(email: string): string {
-  const parts = email.split("@");
-  if (parts.length !== 2) return email;
-  const [local, domain] = parts;
-  if (local.length <= 2) return `${local[0]}***@${domain}`;
-  return `${local[0]}${"*".repeat(local.length - 2)}${local[local.length - 1]}@${domain}`;
-}
-
-export function maskPhone(phone: string): string {
-  const cleaned = phone.replace(/\D/g, "");
-  if (cleaned.length < 4) return "****";
-  return "*".repeat(cleaned.length - 4) + cleaned.slice(-4);
-}
-
-export function trackVote(productId: string, productName: string, isVoted: boolean) {
-  if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("event", isVoted ? "vote_cast" : "vote_removed", {
-      product_id: productId,
-      product_name: productName,
-      device_uuid: getOrCreateDeviceUUID(),
-    });
-  }
-}
-
-export function trackSignup(email: string, phone: string, source: "modal" | "inline") {
-  if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("event", "lead_signup", {
-      signup_source: source,
-      masked_email: maskEmail(email),
-      masked_phone: maskPhone(phone),
-      device_uuid: getOrCreateDeviceUUID(),
-    });
-  }
-}
-
 export function trackInteraction(eventName: string, params?: GtagParams) {
   if (typeof window !== "undefined" && window.gtag) {
     window.gtag("event", eventName, {
@@ -59,4 +24,58 @@ export function trackInteraction(eventName: string, params?: GtagParams) {
       device_uuid: getOrCreateDeviceUUID(),
     });
   }
+}
+
+export function trackCtaClick(location: string, destination: string) {
+  trackInteraction("cta_click", {
+    location,
+    destination,
+  });
+}
+
+export function trackVote(productId: string, productName: string, isVoted: boolean) {
+  trackInteraction(isVoted ? "vote_submit_success" : "vote_removed", {
+    finish_id: productId,
+    finish_name: productName,
+  });
+}
+
+export function trackVoteAttempt(productId: string, productName: string) {
+  trackInteraction("vote_submit_attempt", {
+    finish_id: productId,
+    finish_name: productName,
+  });
+}
+
+export function trackVoteError(productId: string, productName: string, status: string | number) {
+  trackInteraction("vote_submit_error", {
+    finish_id: productId,
+    finish_name: productName,
+    status,
+  });
+}
+
+export function trackLeadAttempt(source: string) {
+  trackInteraction("lead_submit_attempt", {
+    source,
+  });
+}
+
+export function trackSignup(source: string) {
+  trackInteraction("lead_signup_success", {
+    source,
+  });
+}
+
+export function trackLeadError(source: string, status: string | number) {
+  trackInteraction("lead_signup_error", {
+    source,
+    status,
+  });
+}
+
+export function trackDiscountChoice(choice: "claimed" | "full_price") {
+  trackInteraction("discount_choice", {
+    choice,
+  });
 }

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Gift, Check } from "lucide-react";
+import { trackDiscountChoice, trackInteraction } from "@/utils/analytics";
 
 const DiscountModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +16,7 @@ const DiscountModal = () => {
     const preference = localStorage.getItem("discount_preference");
     if (!preference) {
       const timer = setTimeout(() => {
+        trackInteraction("discount_modal_view");
         setIsOpen(true);
       }, 1200);
       return () => clearTimeout(timer);
@@ -25,6 +27,9 @@ const DiscountModal = () => {
     const signup = document.getElementById("signup");
     if (!signup) return;
 
+    trackInteraction("discount_claim_scroll_to_signup", {
+      destination: "#signup",
+    });
     signup.scrollIntoView({ behavior: "smooth", block: "center" });
 
     window.setTimeout(() => {
@@ -36,6 +41,7 @@ const DiscountModal = () => {
   const handleChoice = async (option: "claimed" | "full_price") => {
     setChosenOption(option);
     localStorage.setItem("discount_preference", option);
+    trackDiscountChoice(option);
 
     // Save to window for immediate page updates
     window.dispatchEvent(new Event("discount_preference_changed"));
@@ -73,6 +79,7 @@ const DiscountModal = () => {
   };
 
   const handleClose = () => {
+    trackInteraction("discount_modal_close");
     setIsOpen(false);
   };
 

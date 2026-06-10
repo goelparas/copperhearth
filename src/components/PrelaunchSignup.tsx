@@ -11,7 +11,12 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { z } from "zod";
-import { trackSignup } from "@/utils/analytics";
+import {
+  trackInteraction,
+  trackLeadAttempt,
+  trackLeadError,
+  trackSignup,
+} from "@/utils/analytics";
 
 // Zod schema for 10-digit phone number validation
 const phoneSchema = z
@@ -48,9 +53,7 @@ const PrelaunchSignup = () => {
 
     setIsSubmitting(true);
     setErrorMsg("");
-
-    // Track the signup event with GA (safely masking the inputs)
-    trackSignup(email, phone, "inline");
+    trackLeadAttempt("inline");
 
     try {
       const response = await fetch("/api/signup", {
@@ -62,7 +65,10 @@ const PrelaunchSignup = () => {
       });
 
       if (!response.ok) {
+        trackLeadError("inline", response.status);
         console.error("Prelaunch signup API error status:", response.status);
+      } else {
+        trackSignup("inline");
       }
       
       localStorage.setItem("user_email", email);
@@ -70,6 +76,7 @@ const PrelaunchSignup = () => {
       setIsSuccess(true);
     } catch (err) {
       console.error("Prelaunch signup request failed:", err);
+      trackLeadError("inline", "request_failed");
       // Fallback to showing success to the user to keep the UX seamless
       localStorage.setItem("user_email", email);
       localStorage.setItem("user_phone", phone);
@@ -86,6 +93,9 @@ const PrelaunchSignup = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          onViewportEnter={() => {
+            trackInteraction("section_view", { section: "signup" });
+          }}
           className="bg-brand-forest rounded-3xl md:rounded-[4rem] p-8 md:p-16 lg:p-20 flex flex-col lg:flex-row items-center justify-between gap-10 md:gap-12 border border-white/5"
         >
           {/* Left Content: Icon & Messaging */}

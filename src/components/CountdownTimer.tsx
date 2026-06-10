@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flame } from "lucide-react";
+import { trackCtaClick } from "@/utils/analytics";
 
 interface TimeLeft {
   days: string;
@@ -68,6 +69,7 @@ const CountdownTimer = () => {
   }, []);
 
   const handleScrollToSignup = () => {
+    trackCtaClick("countdown_header", "#signup");
     const el = document.getElementById("signup");
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });

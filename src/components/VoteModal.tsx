@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Mail, Phone, ArrowRight, Heart, Loader2 } from "lucide-react";
 import { z } from "zod";
-import { trackSignup } from "@/utils/analytics";
+import { trackLeadAttempt, trackLeadError, trackSignup, trackVoteError } from "@/utils/analytics";
 
 interface VoteModalProps {
   isOpen: boolean;
@@ -53,6 +53,7 @@ const VoteModal: React.FC<VoteModalProps> = ({
 
     setIsSubmitting(true);
     setErrorMsg("");
+    trackLeadAttempt("vote_modal");
 
     try {
       const response = await fetch("/api/vote", {
@@ -69,11 +70,12 @@ const VoteModal: React.FC<VoteModalProps> = ({
       });
 
       if (!response.ok) {
+        trackLeadError("vote_modal", response.status);
+        trackVoteError(finishId, finishName, response.status);
         console.error("Voting signup API error status:", response.status);
+      } else {
+        trackSignup("vote_modal");
       }
-
-      // Also track analytics event
-      trackSignup(email, phone, "modal");
 
       // Save user details to localStorage
       localStorage.setItem("user_email", email);
@@ -92,6 +94,8 @@ const VoteModal: React.FC<VoteModalProps> = ({
       }, 1800);
     } catch (err) {
       console.error("Voting signup submission failed:", err);
+      trackLeadError("vote_modal", "request_failed");
+      trackVoteError(finishId, finishName, "request_failed");
       // Seamless fallback to success
       localStorage.setItem("user_email", email);
       localStorage.setItem("user_phone", phone);
