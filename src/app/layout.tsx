@@ -123,14 +123,14 @@ export default function RootLayout({
             __html: JSON.stringify(organizationSchema),
           }}
         />
-        <Script
+        {/* <Script
           id="product-schema"
           type="application/ld+json"
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(productSchema),
           }}
-        />
+        /> */}
         {children}
       </body>
     </html>
