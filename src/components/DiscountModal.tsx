@@ -21,6 +21,18 @@ const DiscountModal = () => {
     }
   }, []);
 
+  const scrollToSignup = () => {
+    const signup = document.getElementById("signup");
+    if (!signup) return;
+
+    signup.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    window.setTimeout(() => {
+      const firstInput = signup.querySelector<HTMLInputElement>("input");
+      firstInput?.focus({ preventScroll: true });
+    }, 700);
+  };
+
   const handleChoice = async (option: "claimed" | "full_price") => {
     setChosenOption(option);
     localStorage.setItem("discount_preference", option);
@@ -28,8 +40,13 @@ const DiscountModal = () => {
     // Save to window for immediate page updates
     window.dispatchEvent(new Event("discount_preference_changed"));
 
-    // Optimistic tracking/success
-    setIsSuccess(true);
+    if (option === "claimed") {
+      setIsOpen(false);
+      window.setTimeout(scrollToSignup, 150);
+    } else {
+      // Optimistic tracking/success
+      setIsSuccess(true);
+    }
 
     try {
       await fetch("/api/signup", {
@@ -47,10 +64,12 @@ const DiscountModal = () => {
       console.error("Failed to record discount preference on server:", err);
     }
 
-    // Close the modal after a short delay to show success state
-    setTimeout(() => {
-      setIsOpen(false);
-    }, 1500);
+    if (option === "full_price") {
+      // Close the modal after a short delay to show success state
+      setTimeout(() => {
+        setIsOpen(false);
+      }, 1500);
+    }
   };
 
   const handleClose = () => {
@@ -76,7 +95,7 @@ const DiscountModal = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", duration: 0.6 }}
-            className="fixed inset-x-4 bottom-4 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:left-1/2 md:-translate-x-1/2 m-auto w-full max-w-md bg-[#F7F2EC] rounded-3xl p-8 md:p-10 shadow-2xl z-[101] border border-divider overflow-hidden"
+            className="fixed left-1/2 top-1/2 z-[101] max-h-[calc(100svh-2rem)] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 overflow-auto rounded-3xl border border-divider bg-[#F7F2EC] p-8 shadow-2xl md:p-10"
           >
             {/* Close Button */}
             {!isSuccess && (
