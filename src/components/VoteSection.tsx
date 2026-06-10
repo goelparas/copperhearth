@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Heart, Star, Gift } from "lucide-react";
+import { Star, Gift } from "lucide-react";
 import VotingButton from '@/components/VotingButton'
 import VotingTimer from "./VotingTimer";
 import VotingTimerDesktop from '@/components/VotingTimerDesktop'
@@ -86,27 +86,31 @@ const VoteSection = () => {
 
   // Load from localStorage on client mount
   useEffect(() => {
-    const storedVotes = localStorage.getItem("vote_finishes_counts");
-    let parsedVotes: Record<string, number> = {};
-    if (storedVotes) {
-      try {
-        parsedVotes = JSON.parse(storedVotes);
-      } catch (e) {
-        console.error("Failed to parse stored votes:", e);
+    const timeout = setTimeout(() => {
+      const storedVotes = localStorage.getItem("vote_finishes_counts");
+      let parsedVotes: Record<string, number> = {};
+      if (storedVotes) {
+        try {
+          parsedVotes = JSON.parse(storedVotes);
+        } catch (e) {
+          console.error("Failed to parse stored votes:", e);
+        }
       }
-    }
 
-    setFinishesList((prev) =>
-      prev.map((finish) => {
-        const storedVal = parsedVotes[finish.id];
-        const userVoted = localStorage.getItem(`voted_state_${finish.id}`) === "true";
-        return {
-          ...finish,
-          votes: typeof storedVal === "number" && storedVal >= finish.votes ? storedVal : finish.votes,
-          voted: userVoted,
-        };
-      })
-    );
+      setFinishesList((prev) =>
+        prev.map((finish) => {
+          const storedVal = parsedVotes[finish.id];
+          const userVoted = localStorage.getItem(`voted_state_${finish.id}`) === "true";
+          return {
+            ...finish,
+            votes: typeof storedVal === "number" && storedVal >= finish.votes ? storedVal : finish.votes,
+            voted: userVoted,
+          };
+        })
+      );
+    }, 0);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   // Toggle active tab every 4 seconds for elegant sliding transitions

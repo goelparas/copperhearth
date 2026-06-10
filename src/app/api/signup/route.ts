@@ -4,6 +4,15 @@ import fs from "fs";
 import path from "path";
 import { supabase } from "@/utils/supabase";
 
+type SignupRecord = {
+  phone: string;
+  email: string;
+  source: string;
+  timestamp: string;
+  emailSent: boolean;
+  savedToSupabase: boolean;
+};
+
 export async function POST(request: Request) {
   try {
     const { phone = "", email = "", source = "prelaunch_signup" } = await request.json();
@@ -85,12 +94,12 @@ export async function POST(request: Request) {
       }
       const filePath = path.join(dataDir, "signups.json");
 
-      let existingSignups = [];
+      let existingSignups: SignupRecord[] = [];
       if (fs.existsSync(filePath)) {
         const fileContent = fs.readFileSync(filePath, "utf8");
         try {
           existingSignups = JSON.parse(fileContent);
-        } catch (e) {
+        } catch {
           existingSignups = [];
         }
       }
@@ -119,7 +128,7 @@ export async function POST(request: Request) {
       emailSent,
       savedToSupabase,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Signup error:", error);
     return NextResponse.json(
       { error: "An internal server error occurred." },

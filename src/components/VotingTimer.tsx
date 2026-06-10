@@ -24,12 +24,13 @@ const VotingTimer = () => {
   });
 
   useEffect(() => {
-    setMounted(true);
+    let interval: NodeJS.Timeout | undefined;
 
-    // Create / restore persistent target time
-    let targetTime: number;
+    const timeout = setTimeout(() => {
+      setMounted(true);
 
-    if (typeof window !== "undefined") {
+      // Create / restore persistent target time
+      let targetTime: number;
       const savedTarget = localStorage.getItem(STORAGE_KEY);
       const savedTime = savedTarget ? Number(savedTarget) : 0;
 
@@ -87,8 +88,6 @@ const VotingTimer = () => {
       // Initial call
       const isExpired = updateTimer();
 
-      let interval: NodeJS.Timeout | undefined;
-
       if (!isExpired) {
         interval = setInterval(() => {
           const expired = updateTimer();
@@ -97,13 +96,14 @@ const VotingTimer = () => {
           }
         }, 1000);
       }
+    }, 0);
 
-      return () => {
-        if (interval) {
-          clearInterval(interval);
-        }
-      };
-    }
+    return () => {
+      clearTimeout(timeout);
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, []);
 
   if (!mounted) return null;

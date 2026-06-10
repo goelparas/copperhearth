@@ -1,6 +1,25 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/utils/supabase";
 
+type TableDiagnostic =
+  | {
+      healthy: false;
+      error: string;
+      hint: string;
+    }
+  | {
+      healthy: true;
+      message: string;
+    };
+
+type Diagnostics = {
+  clientInitialized: boolean;
+  supabaseUrl: string;
+  hasAnonKey: boolean;
+  hasServiceKey: boolean;
+  tablesChecked: Partial<Record<"votes" | "signups", TableDiagnostic>>;
+};
+
 export async function GET() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
@@ -23,7 +42,7 @@ export async function GET() {
     );
   }
 
-  const diagnostics: Record<string, any> = {
+  const diagnostics: Diagnostics = {
     clientInitialized: true,
     supabaseUrl: supabaseUrl,
     hasAnonKey: !!supabaseAnonKey,
@@ -70,9 +89,9 @@ export async function GET() {
       };
     }
 
-    const overallHealthy = 
-      diagnostics.tablesChecked.votes.healthy && 
-      diagnostics.tablesChecked.signups.healthy;
+    const overallHealthy =
+      diagnostics.tablesChecked.votes?.healthy === true &&
+      diagnostics.tablesChecked.signups?.healthy === true;
 
     return NextResponse.json({
       success: overallHealthy,
@@ -83,13 +102,14 @@ export async function GET() {
       diagnostics,
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Database connection diagnostics crash:", error);
+    const message = error instanceof Error ? error.message : "Unknown error during database connection test";
     return NextResponse.json(
       {
         success: false,
         status: "Error",
-        error: error.message || "Unknown error during database connection test",
+        error: message,
         diagnostics,
       },
       { status: 500 }

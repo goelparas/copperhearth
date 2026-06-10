@@ -112,7 +112,7 @@ const DiscountModal = () => {
                   </span>
 
                   <h2 className="text-3xl sm:text-4xl font-serif text-brand-forest mb-4 leading-tight tracking-tight">
-                    You've unlocked <br />
+                    You&apos;ve unlocked <br />
                     <span className="text-brand-copper italic font-normal">
                       10% off
                     </span>{" "}

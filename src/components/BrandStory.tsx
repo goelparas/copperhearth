@@ -25,7 +25,7 @@ const BrandStory = () => {
             <div className="absolute inset-0 bg-brand-dark/20"></div>
             <div className="absolute bottom-12 left-12 right-12 bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20">
               <p className="text-white italic text-lg leading-relaxed">
-                "We believe that the objects we use daily should be as beautiful as they are beneficial."
+                &ldquo;We believe that the objects we use daily should be as beautiful as they are beneficial.&rdquo;
               </p>
             </div>
           </motion.div>
@@ -48,7 +48,7 @@ const BrandStory = () => {
               </p>
               <p>
                 Every bottle we create is a testament to this legacy. Hand-forged, inspected by eye, 
-                and polished by hand. We don't just make bottles; we create companions for your 
+                and polished by hand. We don&apos;t just make bottles; we create companions for your 
                 wellness journey that are designed to last a lifetime.
               </p>
               <div className="pt-8 border-t border-brand-muted">

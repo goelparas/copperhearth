@@ -2,19 +2,22 @@
 
 import { useState, useEffect } from "react";
 
-export default function JoinedCounter() {
-  const [count, setCount] = useState(1276);
+const getStoredCount = () => {
+  if (typeof window === "undefined") {
+    return 1276;
+  }
 
-  useEffect(() => {
-    // Retrieve from localStorage on client-side mount
-    const stored = localStorage.getItem("joined_people_count");
-    if (stored) {
-      const parsed = parseInt(stored, 10);
-      if (!isNaN(parsed) && parsed >= 1276) {
-        setCount(parsed);
-      }
-    }
-  }, []);
+  const stored = localStorage.getItem("joined_people_count");
+  if (!stored) {
+    return 1276;
+  }
+
+  const parsed = parseInt(stored, 10);
+  return !isNaN(parsed) && parsed >= 1276 ? parsed : 1276;
+};
+
+export default function JoinedCounter() {
+  const [count, setCount] = useState(getStoredCount);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;

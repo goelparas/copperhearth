@@ -12,6 +12,15 @@ const voteRequestSchema = z.object({
   phone: z.union([z.string().regex(/^\d{10}$/), z.literal("")]).optional(),
 });
 
+type VoteRecord = {
+  finishId: string;
+  finishName: string;
+  email: string;
+  phone: string;
+  timestamp: string;
+  savedToSupabase: boolean;
+};
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -27,7 +36,6 @@ export async function POST(request: Request) {
 
     const { finishId, finishName, email, phone } = validation.data;
     let savedToSupabase = false;
-    let savedToSupabaseLead = false;
     let supabaseErrorMsg = "";
 
     // 1. Try to save to Supabase
@@ -64,13 +72,13 @@ export async function POST(request: Request) {
               },
             ]);
 
-          if (!leadError) {
-            savedToSupabaseLead = true;
+          if (leadError) {
+            console.error("Supabase error saving vote lead:", leadError.message);
           }
         }
-      } catch (dbErr: any) {
+      } catch (dbErr: unknown) {
         console.error("Supabase operation failed:", dbErr);
-        supabaseErrorMsg = dbErr.message || "Unknown db error";
+        supabaseErrorMsg = dbErr instanceof Error ? dbErr.message : "Unknown db error";
       }
     }
 
@@ -83,13 +91,13 @@ export async function POST(request: Request) {
       }
       
       const filePath = path.join(dataDir, "votes.json");
-      let existingVotes = [];
+      let existingVotes: VoteRecord[] = [];
       
       if (fs.existsSync(filePath)) {
         const fileContent = fs.readFileSync(filePath, "utf8");
         try {
           existingVotes = JSON.parse(fileContent);
-        } catch (e) {
+        } catch {
           existingVotes = [];
         }
       }
@@ -122,7 +130,7 @@ export async function POST(request: Request) {
       localSaved,
       supabaseError: supabaseErrorMsg || undefined,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Vote registration API error:", error);
     return NextResponse.json(
       { error: "An internal server error occurred." },

@@ -1,3 +1,12 @@
+type GtagParams = Record<string, string | number | boolean | undefined>;
+type Gtag = (command: "event", eventName: string, params: GtagParams) => void;
+
+declare global {
+  interface Window {
+    gtag?: Gtag;
+  }
+}
+
 export function getOrCreateDeviceUUID(): string {
   if (typeof window === "undefined") return "";
   let uuid = localStorage.getItem("device_uuid");
@@ -23,8 +32,8 @@ export function maskPhone(phone: string): string {
 }
 
 export function trackVote(productId: string, productName: string, isVoted: boolean) {
-  if (typeof window !== "undefined" && (window as any).gtag) {
-    (window as any).gtag("event", isVoted ? "vote_cast" : "vote_removed", {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", isVoted ? "vote_cast" : "vote_removed", {
       product_id: productId,
       product_name: productName,
       device_uuid: getOrCreateDeviceUUID(),
@@ -33,8 +42,8 @@ export function trackVote(productId: string, productName: string, isVoted: boole
 }
 
 export function trackSignup(email: string, phone: string, source: "modal" | "inline") {
-  if (typeof window !== "undefined" && (window as any).gtag) {
-    (window as any).gtag("event", "lead_signup", {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", "lead_signup", {
       signup_source: source,
       masked_email: maskEmail(email),
       masked_phone: maskPhone(phone),
@@ -43,9 +52,9 @@ export function trackSignup(email: string, phone: string, source: "modal" | "inl
   }
 }
 
-export function trackInteraction(eventName: string, params?: Record<string, any>) {
-  if (typeof window !== "undefined" && (window as any).gtag) {
-    (window as any).gtag("event", eventName, {
+export function trackInteraction(eventName: string, params?: GtagParams) {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", eventName, {
       ...params,
       device_uuid: getOrCreateDeviceUUID(),
     });

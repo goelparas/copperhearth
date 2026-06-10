@@ -124,7 +124,7 @@ const PrelaunchSignup = () => {
                   </h3>
                   <p className="text-white/60 text-sm leading-relaxed font-sans">
                     Thank you for joining our collection!<br />
-                    We've reserved your 10% launch discount.
+                    We&apos;ve reserved your 10% launch discount.
                   </p>
                 </div>
               </motion.div>
