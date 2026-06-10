@@ -29,7 +29,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="w-22 h-22  sm:w-28 sm:h-28">
         <Link href="/" className="flex relative items-center cursor-pointer  h-full w-full">
-          <Image src={logo} alt="Copper Hearth"  fill priority objectFit="contain" />
+          <Image src={logo} alt="Copper Hearth logo"  fill priority objectFit="contain" />
         </Link>
         </div>
         

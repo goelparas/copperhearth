@@ -7,6 +7,7 @@ import FeatureSection from "@/components/FeatureSection";
 import VoteSection from "@/components/VoteSection";
 import PrelaunchSignup from "@/components/PrelaunchSignup";
 import Footer from "@/components/Footer";
+import DiscountModal from "@/components/DiscountModal";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <ProductDetails />
       <PrelaunchSignup />
       <Footer />
+      <DiscountModal />
     </main>
   );
 }

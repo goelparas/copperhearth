@@ -58,11 +58,9 @@ const PrelaunchSignup = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phone, email }),
+        body: JSON.stringify({ phone, email, source: "prelaunch_signup" }),
       });
 
-      // Always show success to the user so the system never appears broken.
-      // We log errors to the console internally for later analytics hookups.
       if (!response.ok) {
         console.error("Prelaunch signup API error status:", response.status);
       }
@@ -155,6 +153,7 @@ const PrelaunchSignup = () => {
                   <Mail className="absolute left-5 text-white/30" size={18} />
                   <input
                     type="email"
+                    id="prelaunch-email"
                     placeholder="Email Address"
                     required
                     className="w-full bg-transparent pl-12 pr-5 py-4 md:py-5 text-white text-[0.875rem] placeholder:text-white/20 focus:outline-none transition-all font-sans"

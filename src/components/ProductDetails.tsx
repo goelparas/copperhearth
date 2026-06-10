@@ -9,24 +9,28 @@ const details = [
     desc: "99.9% pure copper naturally enriches every sip.",
     color: "bg-[#D9A67C]/20",
     image: "/mouth.jpeg",
+    alt: "Pure copper interior of Copper Hearth tumbler — 99.9% pure copper",
   },
   {
     title: "LEAK-PROOF LID",
     desc: "Sealed tight. Your water stays in, always.",
     color: "bg-[#B87333]/20",
     image: "/leak-proof.jpeg",
+    alt: "Leak-proof lid on Copper Hearth copper tumbler",
   },
   {
     title: "DOUBLE-WALL INSULATION",
     desc: "Keeps your drink cooler, longer — naturally.",
     color: "bg-[#8B4513]/20",
     image: "/thermal.jpeg",
+    alt: "Double-wall insulated copper tumbler keeping drinks cold",
   },
   {
     title: "ERGONOMIC HANDLE",
     desc: "Balanced grip built for every kind of day.",
     color: "bg-[#A0522D]/20",
     image: "/handle.jpeg",
+    alt: "Ergonomic handle on Copper Hearth copper tumbler for daily use",
   },
 ];
 
@@ -62,7 +66,7 @@ const ProductDetails = () => {
         >
           <Image
             src={detail.image}
-            alt={detail.title}
+            alt={detail.alt}
             fill
             sizes="(max-width: 1024px) 50vw, 320px"
             className="object-cover transition-transform duration-700 group-hover:scale-105"

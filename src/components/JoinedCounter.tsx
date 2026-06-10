@@ -45,7 +45,7 @@ export default function JoinedCounter() {
 
   return (
     <span className="text-[0.6875rem] sm:text-xs font-sans tracking-wide text-brand-forest font-semibold underline decoration-brand-copper/30 underline-offset-4">
-      {count.toLocaleString()} + People have already joined.
+      Trusted by {count.toLocaleString()}+ early supporters.
     </span>
   );
 }

@@ -8,7 +8,6 @@ import VotingButton from '@/components/VotingButton'
 import VotingTimer from "./VotingTimer";
 import VotingTimerDesktop from '@/components/VotingTimerDesktop'
 import { trackVote } from "@/utils/analytics";
-import VoteModal from "./VoteModal";
 
 interface Finish {
   id: string;
@@ -19,6 +18,7 @@ interface Finish {
   textColor: string;
   titleColor: string;
   image: string;
+  imageAlt: string;
   popular?: boolean;
   voted: boolean;
 }
@@ -33,6 +33,7 @@ const initialFinishes: Finish[] = [
     textColor: "text-white/70",
     titleColor: "text-white",
     image: "/copper.jpeg",
+    imageAlt: "Classic raw copper tumbler, uncoated and unfinished, 99.9% pure copper",
     popular: false,
     voted: false,
   },
@@ -47,6 +48,7 @@ const initialFinishes: Finish[] = [
     textColor: "text-brand-forest/70",
     titleColor: "text-brand-forest",
     image: "/cream.jpeg",
+    imageAlt: "Warm champagne finish copper tumbler, handcrafted for modern Indian homes",
   },
   {
     id: "green",
@@ -57,6 +59,7 @@ const initialFinishes: Finish[] = [
     textColor: "text-white/70",
     titleColor: "text-white",
     image: "/green.jpeg",
+    imageAlt: "Forest green copper tumbler with matte exterior finish",
     popular: false,
     voted: false,
   },
@@ -69,6 +72,7 @@ const initialFinishes: Finish[] = [
     textColor: "text-white/70",
     titleColor: "text-white",
     image: "/black.jpeg",
+    imageAlt: "Matte black copper tumbler, minimal design with pure copper interior",
     popular: false,
     voted: false,
   },
@@ -78,8 +82,7 @@ const VoteSection = () => {
   const [finishesList, setFinishesList] = useState<Finish[]>(initialFinishes);
   const [selectedFinish, setSelectedFinish] = useState<string>("champagne");
   const [activeTab, setActiveTab] = useState<"text" | "timer">("text");
-  const [voteModalOpen, setVoteModalOpen] = useState(false);
-  const [pendingVoteFinish, setPendingVoteFinish] = useState<{ id: string; name: string } | null>(null);
+
 
   // Load from localStorage on client mount
   useEffect(() => {
@@ -158,7 +161,7 @@ const VoteSection = () => {
   // Calculate total votes dynamically
   const totalVotes = finishesList.reduce((acc, f) => acc + f.votes, 0);
 
-  const castVote = async (id: string, finishName: string, email: string, phone: string) => {
+  const castVote = async (id: string, finishName: string, email: string = "", phone: string = "") => {
     // 1. Update state & localStorage locally (optimistic/immediate UX feedback)
     setFinishesList((prev) => {
       const updated = prev.map((finish) => {
@@ -244,18 +247,8 @@ const VoteSection = () => {
       // Un-vote
       removeVote(id, finishToUpdate.name);
     } else {
-      // Check if we have user contact details
-      const userEmail = localStorage.getItem("user_email");
-      const userPhone = localStorage.getItem("user_phone");
-
-      if (userEmail && userPhone) {
-        // Vote immediately!
-        castVote(id, finishToUpdate.name, userEmail, userPhone);
-      } else {
-        // Prompt for details using our beautiful modal
-        setPendingVoteFinish({ id, name: finishToUpdate.name });
-        setVoteModalOpen(true);
-      }
+      // Vote immediately!
+      castVote(id, finishToUpdate.name);
     }
   };
 
@@ -358,7 +351,7 @@ const VoteSection = () => {
                     <div className="w-full h-full p-2 transition-transform duration-700 group-hover:scale-108">
                       <Image
                         src={finish.image}
-                        alt={finish.name}
+                        alt={finish.imageAlt}
                         fill
                         sizes="(max-width: 1024px) 100vw, 25vw"
                         className="object-cover"
@@ -451,20 +444,7 @@ const VoteSection = () => {
           })}
         </div>
       </div>
-      {pendingVoteFinish && (
-        <VoteModal
-          isOpen={voteModalOpen}
-          onClose={() => {
-            setVoteModalOpen(false);
-            setPendingVoteFinish(null);
-          }}
-          finishId={pendingVoteFinish.id}
-          finishName={pendingVoteFinish.name}
-          onSuccess={(email, phone) => {
-            castVote(pendingVoteFinish.id, pendingVoteFinish.name, email, phone);
-          }}
-        />
-      )}
+
     </section>
   );
 };

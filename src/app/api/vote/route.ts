@@ -8,8 +8,8 @@ import { z } from "zod";
 const voteRequestSchema = z.object({
   finishId: z.string().min(1, "Finish ID is required"),
   finishName: z.string().min(1, "Finish Name is required"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().regex(/^\d{10}$/, "Phone number must be exactly 10 digits"),
+  email: z.union([z.string().email(), z.literal("")]).optional(),
+  phone: z.union([z.string().regex(/^\d{10}$/), z.literal("")]).optional(),
 });
 
 export async function POST(request: Request) {
@@ -40,8 +40,8 @@ export async function POST(request: Request) {
             {
               finish_id: finishId,
               finish_name: finishName,
-              email: email,
-              phone: phone,
+              email: email || "",
+              phone: phone || "",
             },
           ]);
 
@@ -52,19 +52,21 @@ export async function POST(request: Request) {
           savedToSupabase = true;
         }
 
-        // Insert overall lead signup
-        const { error: leadError } = await supabase
-          .from("signups")
-          .insert([
-            {
-              email: email,
-              phone: phone,
-              source: `vote_${finishId}`,
-            },
-          ]);
+        // Insert overall lead signup only if email and phone are provided
+        if (email && phone) {
+          const { error: leadError } = await supabase
+            .from("signups")
+            .insert([
+              {
+                email: email,
+                phone: phone,
+                source: `vote_${finishId}`,
+              },
+            ]);
 
-        if (!leadError) {
-          savedToSupabaseLead = true;
+          if (!leadError) {
+            savedToSupabaseLead = true;
+          }
         }
       } catch (dbErr: any) {
         console.error("Supabase operation failed:", dbErr);
@@ -95,8 +97,8 @@ export async function POST(request: Request) {
       existingVotes.push({
         finishId,
         finishName,
-        email,
-        phone,
+        email: email || "",
+        phone: phone || "",
         timestamp: new Date().toISOString(),
         savedToSupabase,
       });

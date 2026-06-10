@@ -10,7 +10,7 @@ const FeatureSection = () => {
       <div className="absolute inset-0">
         <Image
           src="/feature.png"
-          alt="Copper Hearth Collection"
+          alt="Copper Hearth first collection — handcrafted copper tumblers in four finishes"
           fill
           priority
           className="object-cover"
@@ -32,7 +32,7 @@ const FeatureSection = () => {
           <div className="mb-6 md:mb-16">
             <Image
               src="/logo.png"
-              alt="GH Logo"
+              alt="Copper Hearth logo"
               width={70}
               height={70}
               className="brightness-0 invert opacity-90"

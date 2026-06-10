@@ -6,56 +6,53 @@ import { supabase } from "@/utils/supabase";
 
 export async function POST(request: Request) {
   try {
-    const { phone, email } = await request.json();
+    const { phone = "", email = "", source = "prelaunch_signup" } = await request.json();
 
-    if (!phone || !email) {
-      return NextResponse.json(
-        { error: "Phone number and email address are required." },
-        { status: 400 }
-      );
-    }
-
-    const emailSubject = `New Prelaunch Signup`;
-    const emailBody = `
-      You have a new prelaunch signup!
-
-      Phone: ${phone}
-      Email: ${email}
-      Date: ${new Date().toLocaleString()}
-    `;
-
-    // Retrieve environment variables
-    const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
-
+    const hasContactDetails = (phone && phone.trim() !== "") || (email && email.trim() !== "");
     let emailSent = false;
 
-    if (SMTP_HOST && SMTP_USER && SMTP_PASS) {
-      try {
-        const transporter = nodemailer.createTransport({
-          host: SMTP_HOST,
-          port: parseInt(SMTP_PORT || "587"),
-          secure: parseInt(SMTP_PORT || "587") === 465,
-          auth: {
-            user: SMTP_USER,
-            pass: SMTP_PASS,
-          },
-        });
+    if (hasContactDetails) {
+      const emailSubject = `New Prelaunch Signup`;
+      const emailBody = `
+        You have a new prelaunch signup!
 
-        await transporter.sendMail({
-          from: `"Copper Hearth Prelaunch" <${SMTP_USER}>`,
-          to: "hearthcopper@gmail.com",
-          subject: emailSubject,
-          text: emailBody,
-        });
+        Phone: ${phone}
+        Email: ${email}
+        Source: ${source}
+        Date: ${new Date().toLocaleString()}
+      `;
 
-        emailSent = true;
-      } catch (mailError) {
-        console.error("Failed to send email via SMTP:", mailError);
+      // Retrieve environment variables
+      const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
+
+      if (SMTP_HOST && SMTP_USER && SMTP_PASS) {
+        try {
+          const transporter = nodemailer.createTransport({
+            host: SMTP_HOST,
+            port: parseInt(SMTP_PORT || "587"),
+            secure: parseInt(SMTP_PORT || "587") === 465,
+            auth: {
+              user: SMTP_USER,
+              pass: SMTP_PASS,
+            },
+          });
+
+          await transporter.sendMail({
+            from: `"Copper Hearth Prelaunch" <${SMTP_USER}>`,
+            to: "hearthcopper@gmail.com",
+            subject: emailSubject,
+            text: emailBody,
+          });
+
+          emailSent = true;
+        } catch (mailError) {
+          console.error("Failed to send email via SMTP:", mailError);
+        }
+      } else {
+        console.warn(
+          "SMTP credentials (SMTP_HOST, SMTP_USER, SMTP_PASS) not configured in .env. Falling back to local file saving."
+        );
       }
-    } else {
-      console.warn(
-        "SMTP credentials (SMTP_HOST, SMTP_USER, SMTP_PASS) not configured in .env. Falling back to local file saving."
-      );
     }
 
     let savedToSupabase = false;
@@ -65,9 +62,9 @@ export async function POST(request: Request) {
           .from("signups")
           .insert([
             {
-              email: email,
-              phone: phone,
-              source: "prelaunch_signup",
+              email: email || "",
+              phone: phone || "",
+              source: source,
             },
           ]);
         if (!dbError) {
@@ -99,8 +96,9 @@ export async function POST(request: Request) {
       }
 
       existingSignups.push({
-        phone,
-        email,
+        phone: phone || "",
+        email: email || "",
+        source,
         timestamp: new Date().toISOString(),
         emailSent,
         savedToSupabase,

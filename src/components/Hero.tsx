@@ -22,17 +22,16 @@ const Hero = () => {
       <CertificationRibbon />
       <div className="container relative z-10 mx-auto md:mx-0 grid h-full max-w-full grid-cols-1 items-start px-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
         {/* Text Content */}
-        <div className="z-10 flex h-[50lvh] md:pl-24 max-w-130 flex-col items-left text-center lg:h-auto lg:max-w-xl lg:items-start lg:pb-20 lg:pt-4 lg:text-left xl:max-w-156">
+        <div className="z-10 mt-4 flex h-[45lvh] md:pl-24 max-w-130 flex-col items-left text-center lg:h-auto lg:max-w-xl lg:items-start lg:pb-20 lg:pt-4 lg:text-left xl:max-w-156">
           <motion.h1
             initial={{ opacity: 0, y: "1.20rem" }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-4 text-left lg:mb-6 lg:text-[4.75rem] lg:leading-[0.98] xl:text-[5.35rem]"
+            className="mb-4 text-left lg:mb-6 lg:text-[4rem] lg:leading-[0.98] xl:text-[5.35rem]"
           >
-            The modern <br />
-            <span className="text-brand-copper italic font-normal">Indian</span>
+            Copper,
             <br />
-            water ritual.
+            Reimagined.
           </motion.h1>
 
           <motion.p
@@ -41,9 +40,9 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="my-3 text-left font-sans text-sm font-semibold lg:mb-8 lg:mt-0 lg:text-lg lg:font-medium lg:leading-relaxed xl:text-xl"
           >
-            The water you drink matters more than
+            The wellness benefits of copper,
             <br />
-            the supplements you take.
+            designed for modern life.
           </motion.p>
 
           {/* Call to Action Button */}
@@ -68,11 +67,10 @@ const Hero = () => {
             <Flame size="0.9375rem" className="animate-pulse fill-current" />
             <JoinedCounter />
           </div>
-
         </div>
 
         {/* Product Image Area */}
-        <div className="absolute bottom-0 right-0 h-[40lvh] w-full md:w-1/2 md:relative md:bottom-auto lg:absolute lg:inset-y-0 lg:right-0 lg:h-full ">
+        <div className="absolute bottom-0 right-0 h-[50lvh] w-full md:w-1/2 md:relative md:bottom-auto lg:absolute lg:inset-y-0 lg:right-0 lg:h-full ">
           <motion.div
             initial={{ opacity: 0, x: "1.25rem" }}
             animate={{ opacity: 1, x: 0 }}
@@ -81,7 +79,7 @@ const Hero = () => {
           >
             <Image
               src={hero}
-              alt="Copper Hearth Products"
+              alt="Copper Hearth tumbler collection — pure copper bottles with ergonomic handle, made in India"
               fill
               className="z-20 object-cover object-center"
               priority
