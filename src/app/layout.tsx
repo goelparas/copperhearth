@@ -61,9 +61,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.copperhearth.shop",
   },
-  verification:{
-   google:'google-site-verification=26Gvc3By9bxQnj-ae8cf1ZHi3xmxqHsd9S3lN1sVknM'
-  }, 
+  verification: {
+  google: '26Gvc3By9bxQnj-ae8cf1ZHi3xmxqHsd9S3lN1sVknM'
+},
   icons: {
     icon: [
       { url: "/logo.ico", sizes: "any" },
